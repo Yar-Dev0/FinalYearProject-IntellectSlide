@@ -11,6 +11,7 @@ import Desktop9 from "./frontend/Desktop9";
 import Desktop12 from "./frontend/Desktop12";
 import Desktop11 from "./frontend/Desktop11";
 import Desktop1 from "./frontend/Desktop1";
+import SlideViewer from "./frontend/SlideViewer";
 
 function App() {
   const action = useNavigationType();
@@ -75,7 +76,8 @@ function App() {
       <Route path="/desktop-9" element={<Desktop9 />} />
       <Route path="/desktop-12" element={<Desktop12 />} />
       <Route path="/desktop-11" element={<Desktop11 />} />
-      <Route path="/" element={<Desktop1 />} />
+      {/* <Route path="/" element={<Desktop1 />} /> */}
+      <Route path="/" element={<SlideViewer />} />
     </Routes>
   );
 }
