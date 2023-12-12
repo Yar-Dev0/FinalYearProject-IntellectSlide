@@ -133,6 +133,7 @@ def voice_model():
     value.append(transcription)
     status=execute_query(query1, value)
     string_data = f'{{"transcription": "{transcription}", "execution_time": {execution_time}, "status": "{status}"}}'
+    print("Received JSON data:", string_data)
 
     return json.loads(string_data)
 
