@@ -41,43 +41,34 @@ const [selectedFiles, setSelectedFiles] = useState(null);
 
 
 
-  const uploadFile = async (event) => {
-    try {
+  function uploadFile(event) {
       const fileInput = event.target;
-      if (!fileInput || !fileInput.files) {
-        throw new Error('File input or files array is undefined.');
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+  
+        // Check if the file has a .pptx extension
+        if (file.name.toLowerCase().endsWith('.pptx')) {
+          const formData = new FormData();
+          formData.append('pptxFile', file);
+
+  
+          // Send the file to the Flask backend using fetch
+          fetch('http://127.0.0.1:5000/upload_pptx', {
+            method: 'POST',
+            body: formData,
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Response from server:', data);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        } else {
+          console.log('Invalid file type. Please choose a .pptx file.');
+        }
       }
-  
-      if (fileInput.files.length === 0) {
-        throw new Error('No file selected.');
-      }
-  
-      const file = fileInput.files[0];
-  
-      // Check if the file has a .pptx extension
-      if (!file.name.toLowerCase().endsWith('.pptx')) {
-        throw new Error('Invalid file type. Please choose a .pptx file.');
-      }
-  
-      const formData = new FormData();
-      formData.append('pptxFile', file);
-  
-      // Send the file to the Flask backend using fetch
-      const response = await fetch('http://127.0.0.1:5000/desktop-11', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Server responded with ${response.status} ${response.statusText}`);
-      }
-  
-      const data = await response.json();
-      console.log('Response from server:', data);
-    } catch (error) {
-      console.error('Error:', error.message);
     }
-  };
   
 
   return (
@@ -257,7 +248,7 @@ const [selectedFiles, setSelectedFiles] = useState(null);
         src="/materialsymbolsattachfileadd.svg"
       />
      
-      <div className={styles.chooseFiles} onClick={uploadFile}>
+      <div className={styles.chooseFiles} onChange={(event) => uploadFile(event)}>
         <label htmlFor="file-upload" style={{  cursor: 'pointer' }}>Choose Files</label>
         <input
           id="file-upload"

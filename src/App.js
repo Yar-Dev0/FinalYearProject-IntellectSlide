@@ -75,7 +75,7 @@ function App() {
       <Route path="/desktop-9" element={<Desktop9 />} />
       <Route path="/desktop-12" element={<Desktop12 />} />
       <Route path="/desktop-11" element={<Desktop11 />} />
-      <Route path="/desktop-1" element={<Desktop1 />} />
+      <Route path="/" element={<Desktop1 />} />
     </Routes>
   );
 }

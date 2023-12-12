@@ -42,7 +42,7 @@ def execute_query(query, values=None):
 #     return json.loads("done")
 
 
-@app.route('/desktop-13')
+@app.route('/voice_model')
 def voice_model():
     import torch
     import torchaudio
@@ -128,7 +128,7 @@ def voice_model():
     execution_time = end_time - start_time
     print(f"Execution time: {execution_time:.2f} seconds")
     
-    query1 = "INSERT INTO presentationslide (transcription) VALUES ( %s);"
+    query1 = "INSERT INTO temppresentationslide (transcription) VALUES ( %s);"
     value=[]
     value.append(transcription)
     status=execute_query(query1, value)
@@ -140,7 +140,7 @@ def voice_model():
 
     
 
-@app.route('/desktop-11', methods=['POST'])
+@app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
     try:
         pptx_file = request.files['pptxFile']

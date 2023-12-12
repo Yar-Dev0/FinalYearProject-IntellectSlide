@@ -17,7 +17,7 @@ const Desktop13 = () => {
   const onStartPresentingClick = async () => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/desktop-13');
+        const response = await fetch('http://127.0.0.1:5000/voice_model');
         console.log("fetching data")
         const data = await response.json();
         console.log(data); 
