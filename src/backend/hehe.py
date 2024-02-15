@@ -4,11 +4,25 @@ from flask_cors import CORS
 import json
 from pptx import Presentation
 from io import BytesIO
+import threading
 import os
+from flask_socketio import SocketIO
+import pyaudio
+import torch
+import torchaudio
+import requests
+import os
+import numpy as np
+import time
+
 
 
 app = Flask(__name__)
-cors = CORS(app)
+socketio = SocketIO(app)
+cors = CORS(app, origins=["http://localhost:3000"])
+
+# socketio = SocketIO(app, cors_allowed_origins="*")  # Set cors_allowed_origins to "*" or your specific frontend URL
+
 
 # Configure MySQL
 app.config['MYSQL_HOST'] = 'localhost'
@@ -17,6 +31,21 @@ app.config['MYSQL_PASSWORD'] = '1234'
 app.config['MYSQL_DB'] = 'intellectslide-db'
 
 mysql = MySQL(app)
+
+recording_status = {'status': 'record'} #global variable to update recording status
+frames=[]
+model=0
+decoder=0
+utils=0
+stream=0
+# Load the model and get utility functions
+model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                    model='silero_stt',
+                                    language='en',  # also available 'de', 'es'
+                                    device=torch.device('cpu'))
+
+# Assign utility functions to global variables
+read_batch, split_into_batches, read_audio, prepare_model_input = utils
 
 def execute_query(query, values=None):
     try:
@@ -42,27 +71,16 @@ def execute_query(query, values=None):
 #     return json.loads("done")
 
 
-@app.route('/voice_model')
-def voice_model():
-    import torch
-    import torchaudio
-    import requests
-    import os
-    import numpy as np
-    import time
 
-    # Silero STT model
-    device = torch.device('cpu')
-    model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
-                                        model='silero_stt',
-                                        language='en', # also available 'de', 'es'
-                                        device=device)
-    (read_batch, split_into_batches,
-    read_audio, prepare_model_input) = utils
+def record():
+    global model
+    global decoder
+    global utils
+    global stream
 
     # Pyaudio recording setup
-    import pyaudio
-    import wave
+    
+    
 
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -80,12 +98,26 @@ def voice_model():
 
     print("* recording")
 
-    frames = []
-
+    global frames
+    frames.clear()
     # Start recording
-    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+    # for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+    global recording_status
+    while recording_status['status'] == "record":
         data = stream.read(CHUNK)
         frames.append(data)
+
+    
+
+
+def stop_recording():
+
+    global model
+    global decoder
+    global utils
+    global stream
+    p = pyaudio.PyAudio()
+       
 
     print("* done recording")
 
@@ -93,10 +125,13 @@ def voice_model():
     stream.stop_stream()
     stream.close()
     p.terminate()
-
-
     start_time = time.time()
-
+    import wave
+    CHUNK = 1024
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 16000
+    WAVE_OUTPUT_FILENAME = "output.wav"
     # Save the recording to a file
     wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
     wf.setnchannels(CHANNELS)
@@ -109,7 +144,7 @@ def voice_model():
     test_files = [WAVE_OUTPUT_FILENAME]
     batches = split_into_batches(test_files, batch_size=10)
     input = prepare_model_input(read_batch(batches[0]),
-                                device=device)
+                                device=torch.device('cpu'))
 
 
     WAVE_OUTPUT_FILENAME = "D:/University/FYP/FYP Repo/updated.wav"
@@ -136,6 +171,26 @@ def voice_model():
     print("Received JSON data:", string_data)
 
     return json.loads(string_data)
+
+
+
+@app.route('/start_recording', methods=['GET'])
+def voice_model():
+    threading.Thread(target=record).start()
+    string_data = f'{{"transcription": "lol"}}'
+    return json.loads(string_data)
+
+
+@app.route('/stop_recording', methods=['GET'])
+def stop_model():
+    global recording_status
+    recording_status['status'] = "stop_recording"
+    return stop_recording()
+
+    
+
+
+    
 
 
 
@@ -178,4 +233,4 @@ def upload_pptx():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   app.run(debug=True)
