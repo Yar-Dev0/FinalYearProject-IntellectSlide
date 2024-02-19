@@ -77,7 +77,7 @@ function App() {
       <Route path="/desktop-12" element={<Desktop12 />} />
       <Route path="/desktop-11" element={<Desktop11 />} />
       <Route path="/" element={<Desktop13 />} />
-      <Route path="/startPresentingScreen" element={<SlideViewer />} />
+      <Route path="/startPresentingScreen" element={<SlideViewer/>} />
     </Routes>
   );
 }

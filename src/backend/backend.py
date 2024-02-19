@@ -196,45 +196,59 @@ def stop_model():
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
     try:
+
         pptx_file = request.files['pptxFile']   
+        pptx_content = BytesIO(pptx_file.read())
+        import aspose.slides as slides
+        import aspose.pydrawing as drawing
+
+        with slides.Presentation(pptx_content) as presentation:
+            try:
+                print("saved")
+                presentation.save("presentation.html", slides.export.SaveFormat.HTML5)
+                
+            except Exception as e:
+                print(f'An error occurred: {str(e)}')
+                return {'error': f'An error occurred: {str(e)}'}
+
+        
 
         # Read the content of the file
-        pptx_content = BytesIO(pptx_file.read())
+        # pptx_content = BytesIO(pptx_file.read())
 
-        pptx_data = pptx_file.read()
+        # pptx_data = pptx_file.read()
 
-        # Define the SQL query to insert the PPTX file data into the database
-        query = "INSERT INTO \"presentation\" (\"pptxFile\") VALUES (%s);"
+        # # Define the SQL query to insert the PPTX file data into the database
+        # query = "INSERT INTO \"presentation\" (\"pptxFile\") VALUES (%s);"
 
 
         
 
-        # Execute the SQL query to insert the PPTX file data
-        execute_query(query, (psycopg2.Binary(pptx_data),))
+        # # Execute the SQL query to insert the PPTX file data
+        # execute_query(query, (psycopg2.Binary(pptx_data),))
 
 
 
-        query="SELECT MAX(\"presentationId\") FROM \"presentation\";"
-        presentationId=9
-        print("Presentation Id", presentationId)
-        cur = connection.cursor()
-        cur.execute(query)
-        presentationId = cur.fetchone()[0]
-        connection.commit()
-        cur.close()
-        print("Presentation Id hehehehe", presentationId)
-        presentation = Presentation(pptx_content)
+        # query="SELECT MAX(\"presentationId\") FROM \"presentation\";"
+        # print("Presentation Id", presentationId)
+        # cur = connection.cursor()
+        # cur.execute(query)
+        # presentationId = cur.fetchone()[0]
+        # connection.commit()
+        # cur.close()
+        # print("Presentation Id hehehehe", presentationId)
+        # presentation = Presentation(pptx_content)
       
-        for slide_number, slide in enumerate(presentation.slides, start=1):
-            query1 = "INSERT INTO slide (\"textContent\", \"slideNo\", \"presentationId\")  VALUES ( %s, %s, %s );"
-            print(f"Slide {slide_number}:")
-            value=""
+        # for slide_number, slide in enumerate(presentation.slides, start=1):
+        #     query1 = "INSERT INTO slide (\"textContent\", \"slideNo\", \"presentationId\")  VALUES ( %s, %s, %s );"
+        #     print(f"Slide {slide_number}:")
+        #     value=""
             
-            for shape in slide.shapes:
-                if hasattr(shape, "text"):
-                    value = value + shape.text
+        #     for shape in slide.shapes:
+        #         if hasattr(shape, "text"):
+        #             value = value + shape.text
             
-            execute_query(query1, (value, slide_number, presentationId) )
+        #     execute_query(query1, (value, slide_number, presentationId) )
                   
         string_data = f'{{"transcription": "done"}}'
         return json.loads(string_data)

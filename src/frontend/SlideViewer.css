@@ -1,5 +1,45 @@
 .slideViewerContainer{
 
-        height: 550px;
-        margin-left: 200px;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: center;
+        background-color: #241C45;
+        background-color: #2E265F;
+        min-height: 1000px;
+        
+}
+
+#react-doc-viewer  {
+        background-color: #2E265F;
+        color: blue;
+        max-height: fit-content;
+        max-width: fit-content
+      }
+
+#header-bar{
+        background-color: #241C45;
+        color: white;
+}
+
+#file-name{
+        color: white;
+}
+.react-pdf__Document{
+
+        margin-left: 0px;
+        margin-right: 0px;
+}
+
+#pdf-page-wrapper{
+        margin-top: 0px;
+        margin-bottom: 0px;
+}
+#pdf-controls {
+        background-color: var(--color-darkslateblue);;
+}
+
+#pdf-pagination-info{
+        color: white;
+        font-family: var(--font-stint-ultra-expanded);
 }
