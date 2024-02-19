@@ -36,17 +36,19 @@ model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
 read_batch, split_into_batches, read_audio, prepare_model_input = utils
 
 
+
+connection = psycopg2.connect(
+    host=app.config['POSTGRES_HOST'],
+    user=app.config['POSTGRES_USER'],
+    password=app.config['POSTGRES_PASSWORD'],
+    dbname=app.config['POSTGRES_DB']
+        )
+
 def execute_query(query, values=None):
     try:
-        connection = psycopg2.connect(
-        host=app.config['POSTGRES_HOST'],
-        user=app.config['POSTGRES_USER'],
-        password=app.config['POSTGRES_PASSWORD'],
-        dbname=app.config['POSTGRES_DB']
-            )
+       
         
         cur = connection.cursor()
-        print 
         if values:
             cur.execute(query, values)
         else:
@@ -56,9 +58,9 @@ def execute_query(query, values=None):
         # result = cur.fetchall()
         connection.commit()
         cur.close()
-        connection.close()
-        print("connection closed")
-        return "DB Action performed successfully"
+        # connection.close()
+        # print("connection closed")
+        return "Database operation successfull"
     except Exception as e:  
         print(f'Database connection error: {str(e)}')
         return f'Database connection error: {str(e)}'
@@ -194,24 +196,46 @@ def stop_model():
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
     try:
-        pptx_file = request.files['pptxFile']
+        pptx_file = request.files['pptxFile']   
 
         # Read the content of the file
         pptx_content = BytesIO(pptx_file.read())
 
-        presentation = Presentation(pptx_content)
+        pptx_data = pptx_file.read()
 
+        # Define the SQL query to insert the PPTX file data into the database
+        query = "INSERT INTO \"presentation\" (\"pptxFile\") VALUES (%s);"
+
+
+        
+
+        # Execute the SQL query to insert the PPTX file data
+        execute_query(query, (psycopg2.Binary(pptx_data),))
+
+
+
+        query="SELECT MAX(\"presentationId\") FROM \"presentation\";"
+        presentationId=9
+        print("Presentation Id", presentationId)
+        cur = connection.cursor()
+        cur.execute(query)
+        presentationId = cur.fetchone()[0]
+        connection.commit()
+        cur.close()
+        print("Presentation Id hehehehe", presentationId)
+        presentation = Presentation(pptx_content)
+      
         for slide_number, slide in enumerate(presentation.slides, start=1):
+            query1 = "INSERT INTO slide (\"textContent\", \"slideNo\", \"presentationId\")  VALUES ( %s, %s, %s );"
             print(f"Slide {slide_number}:")
+            value=""
+            
             for shape in slide.shapes:
                 if hasattr(shape, "text"):
-                    
-                    query1 = "INSERT INTO tempslides (slideText) VALUES ( %s);"
-                    value=[]
-                    value.append(shape.text)
-                    print(value)
-                    status=execute_query(query1, value)
-            print("\n")        
+                    value = value + shape.text
+            
+            execute_query(query1, (value, slide_number, presentationId) )
+                  
         string_data = f'{{"transcription": "done"}}'
         return json.loads(string_data)
     except Exception as e:

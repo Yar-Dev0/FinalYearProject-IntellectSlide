@@ -1,7 +1,9 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 import styles from "./Desktop11.module.css";
 import React, { useState } from 'react';
+import { upload } from "@testing-library/user-event/dist/upload";
 
 const Desktop11 = () => {
   const navigate = useNavigate();
@@ -26,14 +28,12 @@ const [selectedFiles, setSelectedFiles] = useState(null);
 
 
   const handleFileChange = (event) => {
-    setSelectedFiles(event.target.files);
+    uploadFile(event)
+    event.target.value = '';
+    
   };
 
-  const handleSubmit = () => {
-    // Handle file upload or other actions with 'selectedFiles'
-    console.log("Selected Files:", selectedFiles);
-    // Implement the file upload logic or other processing here
-  };
+ 
 
   const onHomeTextClick = useCallback(() => {
     navigate("/desktop-11");
@@ -43,9 +43,10 @@ const [selectedFiles, setSelectedFiles] = useState(null);
 
   function uploadFile(event) {
       const fileInput = event.target;
+      
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
-  
+        console.log(file)
         // Check if the file has a .pptx extension
         if (file.name.toLowerCase().endsWith('.pptx')) {
           const formData = new FormData();
@@ -64,7 +65,10 @@ const [selectedFiles, setSelectedFiles] = useState(null);
             .catch(error => {
               console.error('Error:', error);
             });
-        } else {
+          // setSelectedFiles(null);
+
+        } 
+        else {
           console.log('Invalid file type. Please choose a .pptx file.');
         }
       }
@@ -248,16 +252,14 @@ const [selectedFiles, setSelectedFiles] = useState(null);
         src="/materialsymbolsattachfileadd.svg"
       />
      
-      <div className={styles.chooseFiles} onChange={(event) => uploadFile(event)}>
+      <div className={styles.chooseFiles}>
         <label htmlFor="file-upload" style={{  cursor: 'pointer' }}>Choose Files</label>
         <input
           id="file-upload"
           type="file"
-          onChange={handleFileChange}
-          multiple // Allow multiple file selection, remove this if only single file selection is needed
           style={{ display: 'none' }}
+          onChange={(event) => handleFileChange(event)}
         />
-        <button onClick={handleSubmit}></button>
       </div>
       <div className={styles.orDropFiles}>or drop files here</div>
       <div className={styles.lineDiv} />
