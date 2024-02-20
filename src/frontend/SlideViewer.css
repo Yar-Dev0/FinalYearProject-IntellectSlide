@@ -4,8 +4,6 @@
         justify-content: flex-start;
         flex-direction: column;
         align-items: center;
-        background-color: #241C45;
-        background-color: #2E265F;
         min-height: 1000px;
         
 }
@@ -13,8 +11,11 @@
 #react-doc-viewer  {
         background-color: #2E265F;
         color: blue;
-        max-height: fit-content;
-        max-width: fit-content
+        height: fit-content;
+        width: fit-content;
+        /* max-height: fit-content;
+        max-width: fit-content */
+        
       }
 
 #header-bar{
@@ -26,14 +27,30 @@
         color: white;
 }
 .react-pdf__Document{
-
-        margin-left: 0px;
-        margin-right: 0px;
+        min-width: 400px;
+        
+        
 }
+.textLayer{
+        line-height: 2 !important;
+}
+
+
 
 #pdf-page-wrapper{
         margin-top: 0px;
         margin-bottom: 0px;
+}
+
+
+.react-pdf__Page{
+        
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        
+
 }
 #pdf-controls {
         background-color: var(--color-darkslateblue);;
@@ -42,4 +59,15 @@
 #pdf-pagination-info{
         color: white;
         font-family: var(--font-stint-ultra-expanded);
+}
+
+
+
+span[role="presentation"] {
+
+        transform: scaleX(1) !important;
+       
+        background-color: yellow;
+        opacity: 0.4 !important;
+        transition: ease-out 3s;
 }
