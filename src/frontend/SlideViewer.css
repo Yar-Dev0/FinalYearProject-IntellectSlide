@@ -4,15 +4,61 @@
         /* margin-left: 200px; */
         display: flex;
         /* align-items: center; */
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
-        margin-left: 30px;
-        margin-right: 30px;  
+        background-color: transparent;
+  z-index: 9999;
 }
+
+.carousel-control-prev, .carousel-control-next{
+        display: none;
+}
+.slideViewerContainer:hover .carousel-control-prev{
+        display: block;
+}
+.slideViewerContainer:hover .carousel-control-next{
+        display: block;
+}
+
 
 .unsupported-message .pg-viewer-wrapper .pg-viewer .pg-driver-view {
         display: flex;
         gap: 30px;
+        flex-direction: row;
+
+        
+/*        
+        margin: 0;
+        padding: 0;
+        top: 0;
+        left: 0;
+        z-index: 9999; */
+        
+    }
+
+
+    #pg-viewer  {
+        overflow-x: scroll;
+
+    }
+
+    .unsupported-message{
+                padding: 0;
+                overflow-x: scroll;
+    }
+
+    .unsupported-message .pg-viewer-wrapper .pg-viewer .pg-driver-view > div {
+        display: flex;
+        gap: 30px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        min-width: 100vw; /* 100% of the viewport width */
+        min-height: 100vh; /* 100% of the viewport height */
+        overflow-x: scroll;
+        
+        
+
         
 /*        
         margin: 0;
@@ -26,11 +72,8 @@
     .unsupported-message .pg-viewer-wrapper .pg-viewer .pg-driver-view  section {
         /* Your styles here */
         /* background-color: black; */
-        min-width: 100vw; /* 100% of the viewport width */
-        min-height: 100vh; /* 100% of the viewport height */
-        top: 0;
-        left: 0;
-        padding: 0;
+      
+        padding: 0px;
         /* z-index: 9999; */
         /* position: fixed */
        
@@ -43,3 +86,9 @@
     .carousel-control-next{
         background-color: #939393;
     }
+
+    .hidden-element {
+        visibility: hidden; /* Hide the element */
+        display: none; /* Remove the element from the document flow */
+      }
+
