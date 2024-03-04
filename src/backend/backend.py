@@ -9,6 +9,7 @@ import torch
 import time
 import psycopg2
 
+
 app = Flask(__name__)
 cors = CORS(app, origins=["http://localhost:3000"])
 
