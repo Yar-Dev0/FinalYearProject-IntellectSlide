@@ -1,20 +1,20 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Desktop12.module.css";
+import styles from "../Styles/Desktop12.module.css";
 
 const Desktop12 = () => {
   const navigate = useNavigate();
 
   const onComponent5ContainerClick = useCallback(() => {
-    navigate("/desktop-9");
-  }, [navigate]);
+    navigate("/slides");
+  }, [navigate]); 
 
   const onArchieveTextClick = useCallback(() => {
-    navigate("/desktop-12");
+    navigate("/archive");
   }, [navigate]);
 
   const onHomeTextClick = useCallback(() => {
-    navigate("/desktop-11");
+    navigate("/");
   }, [navigate]);
 
   return (

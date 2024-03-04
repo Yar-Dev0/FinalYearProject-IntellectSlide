@@ -1,20 +1,20 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Desktop9.module.css";
+import styles from "../Styles/Desktop9.module.css";
 
 const Desktop9 = () => {
   const navigate = useNavigate();
 
   const onBundleTabContainerClick = useCallback(() => {
-    navigate("/desktop-14");
+    navigate("/keypoints");
   }, [navigate]);
 
   const onArchieveTextClick = useCallback(() => {
-    navigate("/desktop-12");
+    navigate("/archive");
   }, [navigate]);
 
   const onHomeTextClick = useCallback(() => {
-    navigate("/desktop-11");
+    navigate("/");
   }, [navigate]);
 
 

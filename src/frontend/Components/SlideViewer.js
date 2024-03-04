@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import FileViewer from "offices-viewer";
-import "../frontend/SlideViewer.css";
+import "../Styles/SlideViewer.css";
 
 const SlideViewer = () => {
   let count = 0;
@@ -16,19 +16,7 @@ const SlideViewer = () => {
 
     let outermostElement = elementsWithId[1];
 
-    // elementsWithId.forEach(element => {
-    //   let currentElement = element;
-    //   while (currentElement.parentNode) {
-    //     if (!currentElement.parentNode.matches('#pg-viewer ')) {
-    //       // If the parent node is not another element with the same ID,
-    //       // then this element is the outermost one
-    //       outermostElement = currentElement;
-    //       break;
-    //     }
-    //     currentElement = currentElement.parentNode;
-    //   }
-    // });
-    
+ 
     if (outermostElement) {
       // Now you have the outermost element with the specified ID
       console.log(outermostElement);

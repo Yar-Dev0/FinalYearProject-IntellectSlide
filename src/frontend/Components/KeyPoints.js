@@ -1,4 +1,4 @@
-import styles from "./Desktop14.module.css";
+import styles from "../Styles/Desktop14.module.css";
 
 const Desktop14 = () => {
   return (

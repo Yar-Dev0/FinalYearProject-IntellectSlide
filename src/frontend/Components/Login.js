@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Desktop1.module.css";
+import styles from "../Styles/Desktop1.module.css";
 
 const Desktop1 = () => {
   const navigate = useNavigate();

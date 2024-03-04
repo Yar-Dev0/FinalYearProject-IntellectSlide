@@ -1,100 +1,92 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Desktop13.module.css";
-import io from 'socket.io-client';
+import { useEffect } from 'react';
+import styles from "../Styles/Desktop11.module.css";
+import React, { useState } from 'react';
+import { upload } from "@testing-library/user-event/dist/upload";
 
-const Desktop13 = () => {
+const Desktop11 = () => {
   const navigate = useNavigate();
 
   const onArchieveTextClick = useCallback(() => {
-    navigate("/desktop-12");
+    navigate("/archive");
   }, [navigate]);
 
+  const onAboutTextClick = useCallback(() => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  }, []);
+
+  const onRectangle12Click = useCallback(() => {
+    navigate("/startpresenting");
+  }, [navigate]);
+
+  // Inside your functional component:
+const [selectedFiles, setSelectedFiles] = useState(null);
+
+
+  const handleFileChange = (event) => {
+    uploadFile(event)
+    event.target.value = '';
     
+  };
+
+ 
 
   const onHomeTextClick = useCallback(() => {
-    navigate("/desktop-11");
+    navigate("/");
   }, [navigate]);
 
 
-  const onStartPresentingClick = async () => {
-   
+
+  function uploadFile(event) {
+      const fileInput = event.target;
       
-    const stopRecording = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5000/stop_recording');
-        console.log("fetching data")
-        const data = await response.json();
-        console.log(data); 
-      } catch (error) {
-        console.log('Error:', error);
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        console.log(file)
+        // Check if the file has a .pptx extension
+        if (file.name.toLowerCase().endsWith('.pptx')) {
+          const formData = new FormData();
+          formData.append('pptxFile', file);
+
+  
+          // Send the file to the Flask backend using fetch
+          fetch('http://127.0.0.1:5000/upload_pptx', {
+            method: 'POST',
+            body: formData,
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Response from server:', data);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+          // setSelectedFiles(null);
+
+        } 
+        else {
+          console.log('Invalid file type. Please choose a .pptx file.');
+        }
       }
-    };
-   
-    
-    const startRecording = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5000/start_recording');
-        console.log("fetching data")
-        const data = await response.json();
-        console.log(data); 
-      } catch (error) {
-        console.log('Error:', error);
-      }
-    };
-    
-    console.log((document.getElementById('startPresentingButton').textContent))
-
-    if(document.getElementById('startPresentingButton').textContent=="Start Presenting")
-    {
-      document.getElementById('startPresentingButton').textContent="Stop Presenting";
-      startRecording();
-    }
-    else  if(document.getElementById('startPresentingButton').textContent=="Stop Presenting")
-    {
-      document.getElementById('startPresentingButton').textContent="Start Presenting";
-      stopRecording();
-
-    }
-
     }
   
-    
-   
-  
-
-  
-
-
 
   return (
-    <div className={styles.desktop13}>
-      <img className={styles.bihighlightsIcon} alt="" src="/bihighlights.svg" />
-      <img
-        className={styles.carbonchartPointIcon}
-        alt=""
-        src="/carbonchartpoint.svg"
-      />
-      <img className={styles.bxhighlightIcon} alt="" src="/bxhighlight.svg" />
-      <img
-        className={styles.iconParkOutlinetext}
-        alt=""
-        src="/iconparkoutlinetext.svg"
-      />
-      <div className={styles.desktop13Child} />
-      <div className={styles.desktop13Item} />
-      <div className={styles.desktop13Inner} />
-      <div className={styles.ellipseDiv} />
+    <div className={styles.desktop11}>
       <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" />
       <img className={styles.looperBgIcon} alt="" src="/looper-bg.svg" />
-      <div className={styles.rectangleDiv} />
+      <div className={styles.desktop11Child} />
       <div className={styles.powerfulPresentationsEffortContainer}>
         <p
           className={styles.powerfulPresentations}
         >{`Powerful Presentations,  Effortlessly `}</p>
         <p className={styles.powerfulPresentations}>{` `}</p>
       </div>
-      <img className={styles.rectangleIcon} alt="" src="/rectangle-12.svg" />
+      <img className={styles.desktop11Item} alt="" src="/rectangle-12.svg" />
       <img className={styles.maskGroupIcon} alt="" src="/mask-group.svg" />
       <div className={styles.illuminateYourContentContainer}>
         <p
@@ -104,8 +96,8 @@ const Desktop13 = () => {
           Dynamic Highlighting that Inspires Learning!
         </p>
       </div>
-      <img className={styles.desktop13Child1} alt="" src="/rectangle-14.svg" />
-      <img className={styles.desktop13Child2} alt="" src="/rectangle-17.svg" />
+      <img className={styles.desktop11Inner} alt="" src="/rectangle-14.svg" />
+      <img className={styles.rectangleIcon} alt="" src="/rectangle-17.svg" />
       <img className={styles.illustrationIcon} alt="" src="/illustration.svg" />
       <div className={styles.visualizeKnowledgeFigureContainer}>
         <p className={styles.powerfulPresentations}>Visualize Knowledge</p>
@@ -134,17 +126,16 @@ const Desktop13 = () => {
           <p className={styles.powerfulPresentations}>Slide</p>
         </div>
       </div>
-      <div className={styles.desktop13Child3} />
+      <div className={styles.rectangleDiv} />
       <div className={styles.lecture}>LECTURE</div>
       <div className={styles.logout}>Logout</div>
-      <b className={styles.home} onClick={onHomeTextClick}>
-        Home</b>
+      <b className={styles.home} onClick={onHomeTextClick}>Home</b>
       <div className={styles.archieve} onClick={onArchieveTextClick}>
         Archive
       </div>
-      <div className={styles.aboutUs}>About Us</div>
-      <div className={styles.desktop13Child4} />
-      <div className={styles.desktop13Child5} />
+      <div className={styles.aboutUs} onClick={onAboutTextClick}>About Us</div>
+      <div className={styles.desktop11Child1} />
+      <div className={styles.desktop11Child2} />
       <div className={styles.mobileLoginpana}>
         <img
           className={styles.backgroundCompleteIcon}
@@ -221,11 +212,11 @@ const Desktop13 = () => {
         alt=""
         src="/icbaselineattachemail.svg"
       />
-      {/* <img className={styles.vectorIcon32} alt="" src="/vector32.svg" />
-      <img className={styles.vectorIcon33} alt="" src="/vector33.svg" />
+      {/* <img className={styles.vectorIcon32} alt="" src="/vector32.svg" /> */}
+      {/* <img className={styles.vectorIcon33} alt="" src="/vector33.svg" />
       <img className={styles.vectorIcon34} alt="" src="/vector34.svg" />
-      <img className={styles.vectorIcon35} alt="" src="/vector35.svg" >*/
-      <img className={styles.groupIcon1} alt="" src="/group1.svg" /> }
+      <img className={styles.vectorIcon35} alt="" src="/vector35.svg" /> */}
+      <img className={styles.groupIcon1} alt="" src="/group1.svg" />
       <img className={styles.vectorIcon36} alt="" src="/vector36.svg" />
       <img className={styles.vectorIcon37} alt="" src="/vector37.svg" />
       <div className={styles.ourTeam}>Our Team</div>
@@ -237,32 +228,48 @@ const Desktop13 = () => {
       <div className={styles.ahmedYar}>Ahmed Yar</div>
       <div className={styles.emphasis}>Emphasis</div>
       <div className={styles.lectures}>Lectures</div>
-      <div className={styles.desktop13Child6} />
-      <div className={styles.desktop13Child7} />
-      <button id="startPresentingButton" className={styles.startPresenting} onClick={onStartPresentingClick}>Start Presenting</button>
-      <div className={styles.transcription}>Transcription</div>
-      <div className={styles.runtimeTextHighlighting}>
-        Runtime Text Highlighting
-      </div>
-      <div className={styles.runtimeFigureHighlighting}>
-        Runtime Figure Highlighting
-      </div>
-      <div className={styles.runtimeFigureHighlighting}>
-        Runtime Figure Highlighting
-      </div>
-      <div className={styles.keyPointsGeneration}>Key Points generation</div>
+      <div className={styles.desktop11Child3} />
+      <div className={styles.desktop11Child4} />
+      <img
+        className={styles.fluentslideHide24FilledIcon}
+        alt=""
+        src="/fluentslidehide24filled.svg"
+      />
+      <img
+        className={styles.fluentslideGrid24RegularIcon}
+        alt=""
+        src="/fluentslidegrid24regular.svg"
+      />
       <img
         className={styles.iconParkOutlineslide}
         alt=""
-        src="/iconparkoutlineslide.svg"
+        src="/iconparkoutlineslide1.svg"
       />
+      <div className={styles.desktop11Child5} onClick={onRectangle12Click} />
       <img
-        className={styles.desktop13Child8}
+        className={styles.materialSymbolsattachFileAIcon}
         alt=""
-        src="/rectangle-11@2x.png"
+        src="/materialsymbolsattachfileadd.svg"
+      />
+     
+      <div className={styles.chooseFiles}>
+        <label htmlFor="file-upload" style={{  cursor: 'pointer' }}>Choose Files</label>
+        <input
+          id="file-upload"
+          type="file"
+          style={{ display: 'none' }}
+          onChange={(event) => handleFileChange(event)}
+        />
+      </div>
+      <div className={styles.orDropFiles}>or drop files here</div>
+      <div className={styles.lineDiv} />
+      <img
+        className={styles.mingcutedownFillIcon}
+        alt=""
+        src="/mingcutedownfill1.svg"
       />
     </div>
   );
 };
 
-export default Desktop13;
+export default Desktop11;
