@@ -1,4 +1,5 @@
 import styles from "../Styles/Desktop14.module.css";
+import { useEffect } from "react";
 
 const Desktop14 = () => {
   return (

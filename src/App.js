@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Routes,
   Route,
@@ -13,10 +13,12 @@ import Home from "./frontend/Components/Home";
 import Login from "./frontend/Components/Login";
 import SlideViewer from "./frontend/Components/SlideViewer";
 
+
 function App() {
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
+  const [filePath, setFilePath] = useState(null);
 
   useEffect(() => {
     if (action !== "POP") {
@@ -28,13 +30,13 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/"  element={<Home setFilePath={setFilePath} />} />
       <Route path="/login" element={<Login />} />
       <Route path="/startpresenting" element={<StartPresenting />} /> 
       <Route path="/archive" element={<Archive />} />
       <Route path="/slides" element={<Slides />} />
       <Route path="/keypoints" element={<KeyPoints />} />
-      <Route path="/slideViewer" element={<SlideViewer />} />
+      <Route path="/slideviewer" element={<SlideViewer filePath={filePath}  />} />
     </Routes>
   );
 }

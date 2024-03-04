@@ -2,13 +2,21 @@ import React, { useState, useEffect, useRef } from "react";
 import FileViewer from "offices-viewer";
 import "../Styles/SlideViewer.css";
 
-const SlideViewer = () => {
+const SlideViewer = (props) => {
   let count = 0;
-  const navRef = useRef();
   const [fileType, setFileType] = useState({});
-  const [uri, setUri] = useState(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [inputHidden, setInputHidden] = useState(false);
+
+  useEffect(() => {
+    if(props.filePath)
+    {
+      setFileType("pptx");
+      console.log(props.filePath)
+      toggleFullscreen();
+    }
+   
+  }, [props.filePath]);
+   
 
   const slide = (shift) => {
     const elementsWithId = document.querySelectorAll('.pg-viewer');
@@ -29,16 +37,10 @@ const SlideViewer = () => {
     outermostElement.scrollLeft += shift;
     // outermostElement.scrollLeft += totalScrollableWidth; 
 }
- 
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFileType("pptx");
-    setUri(URL.createObjectURL(file));
-    setCurrentSlideIndex(0); // Reset slide index when a new file is selected
-    toggleFullscreen();
-    setInputHidden(true);
-  };
+
+
+ 
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -74,14 +76,9 @@ const SlideViewer = () => {
 
   return (
     <div className="slideViewerContainer" >
-      <input
-        className={inputHidden ? "hidden-element" : ""}
-        type="file"
-        accept=".pptx"
-        onChange={handleFileChange}
-      />
+     
 
-      {uri && (
+      {props.filePath && (
         <div>
           <button
             className="carousel-control-prev"
@@ -105,10 +102,16 @@ const SlideViewer = () => {
           </button>
 
           <div id="hehe">
-            <FileViewer fileType={fileType} filePath={uri} slideIndex={currentSlideIndex} />
+            <FileViewer fileType={fileType} filePath={props.filePath} slideIndex={currentSlideIndex} />
           </div>
         </div>
       )}
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-danger">Stop Recording</button>
+  {/* <button type="button" class="btn btn-secondary">Middle</button>
+  <button type="button" class="btn btn-secondary">Right</button> */}
+</div>
     </div>
   );
 };

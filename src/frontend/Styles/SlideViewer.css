@@ -1,20 +1,32 @@
 .slideViewerContainer{
-
-        /* height: 550px; */
-        /* margin-left: 200px; */
+        position: relative;
         display: flex;
-        /* align-items: center; */
         flex-direction: column;
         justify-content: center;
         background-color: transparent;
-  z-index: 999;
+        z-index: 999;
+}
+.btn-group{
+    display: none;
+    position: absolute;
+    left: 45%;
+    right: 45%;
+    top: 83%;
+    z-index: 9999;
+    
+
+}
+
+.slideViewerContainer:hover .btn-group   {
+    display: block;
+    z-index: 9999;
 }
 
 .carousel-control-prev, .carousel-control-next{
         
         display: none;
 }
-.slideViewerContainer:hover .carousel-control-prev{
+.slideViewerContainer:hover .carousel-control-prev  {
         display: block;
         z-index: 9999;
 }

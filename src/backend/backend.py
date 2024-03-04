@@ -195,6 +195,9 @@ def stop_model():
 
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
+
+    string_data = f'{{"transcription": "done"}}'
+    return json.loads(string_data)
     try:
         pptx_file = request.files['pptxFile']   
 

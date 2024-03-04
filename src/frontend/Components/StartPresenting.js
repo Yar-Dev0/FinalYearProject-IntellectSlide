@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/Desktop13.module.css";
 
@@ -33,6 +34,7 @@ const Desktop13 = () => {
     
     const startRecording = async () => {
       try {
+        navigate("/slideviewer");
         const response = await fetch('http://127.0.0.1:5000/start_recording');
         console.log("fetching data")
         const data = await response.json();
@@ -60,10 +62,6 @@ const Desktop13 = () => {
   
     
    
-  
-
-  
-
 
 
   return (

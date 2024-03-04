@@ -1,14 +1,14 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
-import styles from "../Styles/Desktop11.module.css";
+import styles from "../Styles/home.module.css";
 import React, { useState } from 'react';
 import { upload } from "@testing-library/user-event/dist/upload";
 
-const Desktop11 = () => {
+const Desktop11 = (props) => {
   const navigate = useNavigate();
 
-  const onArchieveTextClick = useCallback(() => {
+  const onArchiveTextClick = useCallback(() => {
     navigate("/archive");
   }, [navigate]);
 
@@ -42,17 +42,17 @@ const [selectedFiles, setSelectedFiles] = useState(null);
 
 
   function uploadFile(event) {
-      const fileInput = event.target;
+      const file = event.target.files[0];
+      props.setFilePath(URL.createObjectURL(file));
       
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
+      if (file) {
         console.log(file)
         // Check if the file has a .pptx extension
         if (file.name.toLowerCase().endsWith('.pptx')) {
           const formData = new FormData();
           formData.append('pptxFile', file);
 
-  
+          
           // Send the file to the Flask backend using fetch
           fetch('http://127.0.0.1:5000/upload_pptx', {
             method: 'POST',
@@ -62,6 +62,7 @@ const [selectedFiles, setSelectedFiles] = useState(null);
             .then(data => {
               console.log('Response from server:', data);
             })
+            .then(navigate("/startpresenting"))
             .catch(error => {
               console.error('Error:', error);
             });
@@ -130,7 +131,7 @@ const [selectedFiles, setSelectedFiles] = useState(null);
       <div className={styles.lecture}>LECTURE</div>
       <div className={styles.logout}>Logout</div>
       <b className={styles.home} onClick={onHomeTextClick}>Home</b>
-      <div className={styles.archieve} onClick={onArchieveTextClick}>
+      <div className={styles.archieve} onClick={onArchiveTextClick}>
         Archive
       </div>
       <div className={styles.aboutUs} onClick={onAboutTextClick}>About Us</div>

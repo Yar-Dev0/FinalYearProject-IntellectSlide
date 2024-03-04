@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/Desktop9.module.css";
+import { useEffect } from "react";
 
 const Desktop9 = () => {
   const navigate = useNavigate();

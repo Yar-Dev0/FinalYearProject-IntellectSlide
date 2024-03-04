@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/Desktop1.module.css";
+import { useEffect } from "react";
 
 const Desktop1 = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Desktop1 = () => {
 
   const onLOGINTextClick = useCallback(() => {
     // You might want to handle login logic here
-    navigate("/desktop-11");
+    navigate("/");
   }, [navigate]);
 
   const handleRegisterClick = () => {
