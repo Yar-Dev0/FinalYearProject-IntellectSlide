@@ -21,7 +21,7 @@ const Desktop1 = () => {
   return (
     <div className={styles.desktop1}>
       <img className={styles.desktop1Child} alt="" src="/group-1.svg" />
-      <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" />
+      {/* <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" /> */}
       <div className={styles.transformingLecturesEngageContainer}>
         <p className={styles.transformingLectures}>Transforming Lectures</p>
         <p className={styles.transformingLectures}>Engage, Navigate, Transcribe!</p>

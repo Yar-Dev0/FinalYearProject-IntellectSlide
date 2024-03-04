@@ -22,7 +22,7 @@ const Desktop9 = () => {
 
    
     <div className={styles.desktop9}>
-      <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" />
+      {/* <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" /> */}
       <img className={styles.looperBgIcon} alt="" src="/looper-bg.svg" />
       <div className={styles.desktop9Child} />
       <div className={styles.component1}>

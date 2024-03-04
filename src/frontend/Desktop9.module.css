@@ -6,7 +6,7 @@
   width: 1440px;
   height: 591px;
 } */
-/* .desktop9Child, */
+.desktop9Child,
 .looperBgIcon {
   position: absolute;
   top: 0;
@@ -14,14 +14,14 @@
   width: 831px;
   height: 772.8px;
 }
-/* .desktop9Child {
+.desktop9Child {
   top: 28px;
   left: 1209px;
   border-radius: var(--br-3xs);
   background-color: var(--color-darkslateblue);
   width: 192px;
   height: 72px;
-} */
+}
 .intellect1 {
   margin: 0;
 }
@@ -100,12 +100,12 @@
 }
 .carbonnextOutlineIcon1 {
   top: 680px;
-  left: 90px;
+  left: 50px;
 }
 
 .carbonnextOutlineIcon{
   top: 680px;
-  left: 1165px;
+  left: 1100px;
   
 }
 .specialOffers {
@@ -182,7 +182,7 @@
 .desktop9Inner {
   position: absolute;
   top: 450px;
-  left: 200px;
+  left: 150px;
   width: 930px;
   height: 516px;
   object-fit: cover;
@@ -217,7 +217,7 @@
 .rectangleDiv {
   position: absolute;
   top: 28px;
-  left: 850px;
+  left: 800px;
   border-radius: var(--br-3xs);
   background-color: var(--color-steelblue-200);
   width: 450px;
@@ -253,7 +253,7 @@
 .desktop9Child1 {
   position: absolute;
   top: 1050px;
-  left: 480px;
+  left: 400px;
   border-radius: var(--br-8xs);
   background-color: var(--color-steelblue-200);
   width: 399px;
@@ -262,7 +262,7 @@
 .startPresenting {
   position: absolute;
   top: 1070px;
-  left: 550px;
+  left: 470px;
   font-size: var(--font-size-5xl);
   font-family: var(--font-krona-one);
   color: var(--color-gray);
@@ -274,7 +274,7 @@
 .iconParkOutlineslide {
   position: absolute;
   top: 1060px;
-  left: 500px;
+  left: 420px;
   width: 54px;
   height: 54px;
   overflow: hidden;

@@ -2,7 +2,7 @@
 .loopergroupIcon {
   position: absolute;
   top: 98px;
-  left: 0;
+  left: -100px;
   width: 821px;
   height: 851px;
 }
@@ -17,7 +17,7 @@
 .transformingLecturesEngageContainer {
   position: absolute;
   top: 539px;
-  left: 253px;
+  left: 150px;
   font-size: var(--font-size-11xl);
   font-weight: 600;
   font-family: var(--font-darker-grotesque);
@@ -55,7 +55,7 @@
 .component1 {
   position: absolute;
   top: 340px;
-  left: 245px;
+  left: 140px;
   width: 397px;
   height: 203px;
   font-size: var(--font-size-61xl);
@@ -98,15 +98,15 @@
 }
 .card2 {
   top: 655px;
-  left: 921px;
+  left: 960px;
   border-radius: var(--br-6xs);
   background-color: #a5d9d0;
-  width: 419px;
+  width: 250px;
   height: 50px;
 }
 .login {
   top: 667px;
-  left: 1102px;
+  left: 1060px;
   font-size: var(--font-size-xl);
   font-family: var(--font-faustina);
   color: var(--color-black);
@@ -142,7 +142,7 @@
 .newRegisterHere {
   position: absolute;
   top: 721px;
-  left: 1065px;
+  left: 1030px;
 }
 .enterYourUsername {
   position: absolute;
@@ -150,15 +150,15 @@
   left: 920px;
   opacity: 0.5;
   height: 45px;
-  width: 450px;
+  width: 320px;
 }
 .enterYourPassword {
   position: absolute;
   top: 560px;
-  left: 915px;
+  left: 920px;
   opacity: 0.5;
   height: 45px;
-  width: 450px;
+  width: 320px;
 }
 .desktop1Item {
   position: absolute;

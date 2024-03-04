@@ -19,7 +19,7 @@ const Desktop12 = () => {
 
   return (
     <div className={styles.desktop12}>
-      <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" />
+      {/* <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" /> */}
       <img className={styles.looperBgIcon} alt="" src="/looper-bg.svg" />
       <div className={styles.desktop12Child} />
       <div className={styles.component1}>

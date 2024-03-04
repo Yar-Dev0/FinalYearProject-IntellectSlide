@@ -5,7 +5,7 @@
   width: 1440px;
   height: 591px;
 }
-/* .desktop12Child, */
+.desktop12Child,
 .looperBgIcon {
   position: relative;
   top: 0;
@@ -13,14 +13,14 @@
   width: 831px;
   height: 772.8px;
 }
-/* .desktop12Child {
+.desktop12Child {
   top: 28px;
   left: 1209px;
   border-radius: var(--br-3xs);
   background-color: var(--color-darkslateblue);
   width: 0px;
   height: 72px;
-} */
+}
 .intellect,
 .slide {
   position: absolute;
@@ -375,7 +375,7 @@
 .desktop12Item {
   position: absolute;
   top: 28px;
-  left: 814px;
+  left: 760px;
   border-radius: var(--br-3xs);
   background-color: var(--color-steelblue-200);
   width: 480px;

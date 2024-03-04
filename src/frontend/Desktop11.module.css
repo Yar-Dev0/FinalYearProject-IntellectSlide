@@ -50,14 +50,14 @@
 }
 .maskGroupIcon {
   top: 865px;
-  left: 689px;
+  left: 610px;
   width: 1462px;
   height: 1934.8px;
 }
 .illuminateYourContentContainer {
   position: absolute;
   top: 1064px;
-  left: 118px;
+  left: 40px;
   font-size: var(--font-size-20xl);
   display: inline-block;
   width: 639px;
@@ -66,15 +66,15 @@
 .desktop11Inner,
 .rectangleIcon {
   position: absolute;
-  top: 1488.6px;
-  left: 728px;
+  top: 1495.6px;
+  left: 640px;
   border-radius: var(--br-mini);
   width: 627px;
   height: 682px;
 }
 .rectangleIcon {
   top: 1496.5px;
-  left: 74px;
+  left: 0;
   height: 679px;
 }
 .illustrationIcon {
@@ -93,7 +93,7 @@
 .visualizeKnowledgeFigureContainer {
   position: absolute;
   top: 1968px;
-  left: 125px;
+  left: 40px;
   font-size: var(--font-size-13xl);
   display: inline-block;
   width: 526px;
@@ -101,7 +101,7 @@
 }
 .captureKnowledgeKey {
   top: 1969px;
-  left: 777px;
+  left: 690px;
   width: 534px;
   height: 261px;
 }

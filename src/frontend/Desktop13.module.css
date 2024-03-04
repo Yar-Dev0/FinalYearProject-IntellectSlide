@@ -108,7 +108,7 @@
 .rectangleIcon {
   position: absolute;
   top: 823px;
-  left: 0;
+  left: -250px;
   width: 1900.4px;
   height: 704.7px;
 }
@@ -130,15 +130,15 @@
 .desktop13Child1,
 .desktop13Child2 {
   position: absolute;
-  top: 1488.6px;
-  left: 728px;
+  top: 1496.6px;
+  left: 680px;
   border-radius: var(--br-mini);
   width: 627px;
   height: 682px;
 }
 .desktop13Child2 {
   top: 1496.5px;
-  left: 74px;
+  left: 40px;
   height: 679px;
 }
 .illustrationIcon {
@@ -165,7 +165,1069 @@
 }
 .captureKnowledgeKey {
   top: 1969px;
-  left: 777px;
+  left: 720px;
+  width: 534px;
+  height: 261px;
+}
+.intellect,
+.slide {
+  position: absolute;
+  height: 57.68%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  letter-spacing: -0.06em;
+  line-height: 145px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.slide {
+  height: 64.04%;
+  width: 92.46%;
+  top: 35.96%;
+  font-size: var(--font-size-26xl);
+  font-family: var(--font-stint-ultra-expanded);
+}
+.component1,
+.component2 {
+  position: absolute;
+  top: -34px;
+  left: -1942px;
+  width: 240px;
+  height: 99px;
+  text-align: left;
+  font-size: var(--font-size-21xl);
+  color: var(--shades-shade-50);
+  font-family: var(--font-space-grotesk);
+}
+.component2 {
+  top: -26px;
+  left: 33px;
+}
+/*Navbar*/
+.desktop13Child3 {
+  position: absolute;
+  top: 28px;
+  left: 860px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-steelblue-200);
+  width: 470px;
+  height: 72px;
+}
+.aboutUs,
+.archieve,
+.home,
+.lecture,
+.logout {
+  position: absolute;
+  font-family: var(--font-istok-web);
+  text-align: left;
+  display: inline-block;
+}
+.lecture {
+  top: 20px;
+  right: 2618px;
+  font-size: var(--font-size-11xl);
+  color: var(--shades-shade-50);
+  width: 235px;
+  height: 72px;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.aboutUs,
+.archieve,
+.home,
+.logout {
+  top: 49px;
+}
+.logout {
+  right: 30px;
+  color: var(--shades-shade-50);
+  width: 70px;
+  height: 24px;
+  text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.aboutUs,
+.archieve,
+.home {
+  height: 35px;
+}
+.home {
+  right: 400px;
+  color: var(--shades-shade-50);
+  width: 70px;
+  text-shadow: 0 5px 10px #000;
+  cursor: pointer;
+}
+.aboutUs,
+.archieve {
+  color: var(--color-black);
+  text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+.archieve {
+  right: 250px;
+  width: 111px;
+  cursor: pointer;
+}
+.aboutUs {
+  right: 150px;
+  width: 89px;
+  cursor: pointer;
+}
+.desktop13Child4,
+.desktop13Child5 {
+  position: absolute;
+  top: 2259px;
+  left: 0;
+  width: 1440px;
+}
+.desktop13Child4 {
+  background-color: var(--color-black);
+  height: 380px;
+}
+.desktop13Child5 {
+  background: linear-gradient(
+    180deg,
+    rgba(33, 17, 67, 0.61),
+    #27114b 28.65%,
+    rgba(39, 17, 75, 0)
+  );
+  height: 80px;
+}
+.backgroundCompleteIcon,
+.backgroundSimpleIcon {
+  position: absolute;
+  height: 87.5%;
+  width: 100%;
+  top: 357.33%;
+  right: -40.88%;
+  bottom: -344.83%;
+  left: 40.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.backgroundSimpleIcon {
+  height: 68.63%;
+  width: 72.54%;
+  top: 377.49%;
+  right: -24.32%;
+  bottom: -346.12%;
+  left: 51.78%;
+}
+.floorIcon,
+.plantIcon,
+.vectorIcon {
+  position: absolute;
+  height: 0.47%;
+  width: 72.61%;
+  top: 99.53%;
+  right: 14.76%;
+  bottom: 0;
+  left: 12.63%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.plantIcon,
+.vectorIcon,
+.vectorIcon1 {
+  height: 33.97%;
+  width: 19.45%;
+  top: 45.18%;
+  right: 15.45%;
+  bottom: 20.84%;
+  left: 65.1%;
+}
+.vectorIcon,
+.vectorIcon1 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.vectorIcon1 {
+  height: 8.49%;
+  width: 58.69%;
+  top: 79.64%;
+  right: 20.62%;
+  bottom: 11.86%;
+  left: 20.69%;
+}
+.wow {
+  position: absolute;
+  height: 5.02%;
+  width: 38.37%;
+  top: 81.22%;
+  left: 32.73%;
+  display: inline-block;
+}
+.vectorIcon2 {
+  height: 1.76%;
+  width: 19.64%;
+  top: 26.2%;
+  right: 66.97%;
+  bottom: 72.04%;
+  left: 13.39%;
+}
+.vectorIcon2,
+.vectorIcon3,
+.vectorIcon4 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vectorIcon3 {
+  height: 1.76%;
+  width: 19.64%;
+  top: 26.2%;
+  right: 66.97%;
+  bottom: 72.04%;
+  left: 13.39%;
+  opacity: 0.1;
+}
+.vectorIcon4 {
+  height: 9.28%;
+  width: 84.8%;
+  top: 30.36%;
+  right: 5.12%;
+  bottom: 60.36%;
+  left: 10.08%;
+}
+.deviceChild {
+  position: absolute;
+  top: 19.8px;
+  left: 21px;
+  background-color: var(--color-whitesmoke);
+  border: 1px solid var(--color-yellow);
+  box-sizing: border-box;
+  width: 98.6px;
+  height: 48.3px;
+}
+.deviceItem {
+  position: absolute;
+  top: 24px;
+  left: 29.6px;
+  background-color: var(--color-yellow);
+  width: 80.4px;
+  height: 40.2px;
+}
+.vectorIcon5,
+.vectorIcon6 {
+  position: absolute;
+  height: 1.61%;
+  width: 35.89%;
+  top: 32.4%;
+  right: 44.85%;
+  bottom: 65.99%;
+  left: 19.26%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vectorIcon6 {
+  opacity: 0.2;
+}
+.vectorIcon7 {
+  height: 1.76%;
+  width: 19.64%;
+  top: 41.83%;
+  right: 67.12%;
+  bottom: 56.42%;
+  left: 13.24%;
+}
+.vectorIcon7,
+.vectorIcon8,
+.vectorIcon9 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vectorIcon8 {
+  height: 1.76%;
+  width: 19.64%;
+  top: 41.83%;
+  right: 67.12%;
+  bottom: 56.42%;
+  left: 13.24%;
+  opacity: 0.1;
+}
+.vectorIcon9 {
+  height: 6.38%;
+  width: 78.78%;
+  top: 46.02%;
+  right: 8.28%;
+  bottom: 47.6%;
+  left: 12.94%;
+}
+.vectorIcon10 {
+  height: 1.76%;
+  width: 19.64%;
+  top: 58.14%;
+  right: 67.27%;
+  bottom: 40.11%;
+  left: 13.09%;
+}
+.vectorIcon10,
+.vectorIcon11,
+.vectorIcon12 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vectorIcon11 {
+  height: 1.76%;
+  width: 19.64%;
+  top: 58.14%;
+  right: 67.27%;
+  bottom: 40.11%;
+  left: 13.09%;
+  opacity: 0.1;
+}
+.vectorIcon12 {
+  height: 6.42%;
+  width: 78.78%;
+  top: 62.29%;
+  right: 8.35%;
+  bottom: 31.29%;
+  left: 12.87%;
+}
+.vectorIcon13 {
+  height: 1.68%;
+  width: 35.89%;
+  top: 48.42%;
+  right: 45.6%;
+  bottom: 49.89%;
+  left: 18.51%;
+}
+.vectorIcon13,
+.vectorIcon14,
+.vectorIcon15,
+.vectorIcon16 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vectorIcon14 {
+  height: 1.68%;
+  width: 35.89%;
+  top: 48.42%;
+  right: 45.6%;
+  bottom: 49.89%;
+  left: 18.51%;
+  opacity: 0.2;
+}
+.vectorIcon15,
+.vectorIcon16 {
+  height: 1.51%;
+  width: 3.16%;
+  top: 64.95%;
+  right: 78.25%;
+  bottom: 33.55%;
+  left: 18.59%;
+}
+.vectorIcon16 {
+  height: 1.61%;
+  right: 73.36%;
+  bottom: 33.44%;
+  left: 23.48%;
+}
+.groupIcon,
+.vectorIcon17,
+.vectorIcon18,
+.vectorIcon19,
+.vectorIcon20,
+.vectorIcon21,
+.vectorIcon22,
+.vectorIcon23 {
+  position: absolute;
+  height: 1.51%;
+  width: 3.16%;
+  top: 64.98%;
+  right: 68.55%;
+  bottom: 33.51%;
+  left: 28.29%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.groupIcon,
+.vectorIcon18,
+.vectorIcon19,
+.vectorIcon20,
+.vectorIcon21,
+.vectorIcon22,
+.vectorIcon23 {
+  right: 63.66%;
+  left: 33.18%;
+}
+.groupIcon,
+.vectorIcon19,
+.vectorIcon20,
+.vectorIcon21,
+.vectorIcon22,
+.vectorIcon23 {
+  right: 58.77%;
+  left: 38.07%;
+}
+.groupIcon,
+.vectorIcon20,
+.vectorIcon21,
+.vectorIcon22,
+.vectorIcon23 {
+  right: 53.95%;
+  left: 42.89%;
+}
+.groupIcon,
+.vectorIcon21,
+.vectorIcon22,
+.vectorIcon23 {
+  height: 1.61%;
+  top: 65.02%;
+  right: 49.06%;
+  bottom: 33.37%;
+  left: 47.78%;
+}
+.groupIcon,
+.vectorIcon22,
+.vectorIcon23 {
+  height: 1.51%;
+  right: 44.24%;
+  bottom: 33.48%;
+  left: 52.6%;
+}
+.groupIcon,
+.vectorIcon23 {
+  right: 39.35%;
+  left: 57.49%;
+}
+.groupIcon {
+  height: 1.65%;
+  width: 41.99%;
+  top: 64.95%;
+  right: 39.43%;
+  bottom: 33.41%;
+  left: 18.59%;
+  opacity: 0.2;
+}
+.vectorIcon24 {
+  height: 5.23%;
+  width: 10.08%;
+  top: 10.68%;
+  right: 42.29%;
+  bottom: 84.09%;
+  left: 47.63%;
+}
+.vectorIcon24,
+.vectorIcon25,
+.vectorIcon26,
+.vectorIcon27 {
+  position: absolute;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vectorIcon25 {
+  height: 5.23%;
+  width: 10.08%;
+  top: 10.68%;
+  right: 42.29%;
+  bottom: 84.09%;
+  left: 47.63%;
+  opacity: 0.1;
+}
+.vectorIcon26,
+.vectorIcon27 {
+  height: 2.11%;
+  width: 36.04%;
+  top: 17.28%;
+  right: 29.87%;
+  bottom: 80.61%;
+  left: 34.09%;
+}
+.vectorIcon27 {
+  opacity: 0.2;
+}
+.device {
+  position: absolute;
+  height: 65.42%;
+  width: 30.69%;
+  top: 13.69%;
+  right: 30.85%;
+  bottom: 20.89%;
+  left: 38.45%;
+}
+.characterIcon,
+.speechBubbleIcon {
+  position: absolute;
+  height: 13.93%;
+  width: 12.08%;
+  top: 32%;
+  right: 74.57%;
+  bottom: 54.07%;
+  left: 13.35%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.characterIcon {
+  height: 66.17%;
+  width: 33.51%;
+  top: 33.41%;
+  right: 47.11%;
+  bottom: 0.42%;
+  left: 19.38%;
+}
+.mobileLoginpana {
+  position: absolute;
+  height: 16.16%;
+  width: 30.07%;
+  top: 57.75%;
+  right: 57.64%;
+  bottom: 26.09%;
+  left: 12.29%;
+  text-align: left;
+  font-size: var(--font-size-mini);
+  color: var(--color-gainsboro-100);
+  font-family: var(--font-montserrat);
+}
+.maskGroupIcon1 {
+  position: absolute;
+  height: 2.08%;
+  width: 3.82%;
+  top: 95.83%;
+  right: 47.85%;
+  bottom: 2.08%;
+  left: 48.33%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.vectorIcon28 {
+  position: absolute;
+  top: 2520px;
+  left: 780px;
+  width: 55px;
+  height: 64.5px;
+  overflow: hidden;
+}
+
+.logosjupyterIcon
+{
+  position: absolute;
+  top: 2520px;
+  left: 870px;
+  width: 55px;
+  height: 64.5px;
+  overflow: hidden;
+}
+
+.skillIconsdjango{
+  position: absolute;
+  top: 2529px;
+  left: 1035px;
+  width: 55px;
+  height: 55px;
+  overflow: hidden;
+}
+.vectorIcon29 {
+  position: absolute;
+  top: 2529px;
+  left: 950px;
+  width: 55px;
+  height: 55px;
+  overflow: hidden;
+}
+
+.vectorIcon30{
+  position: absolute;
+  top: 2529px;
+  left: 1177px;
+  width: 36.7px;
+  height: 55px;
+  overflow: hidden;
+}
+
+.logosfigmaIcon {
+  position: absolute;
+  top: 2529px;
+  left: 1200px;
+  width: 36.7px;
+  height: 55px;
+  overflow: hidden;
+}
+.vectorIcon30 {
+  position: absolute;
+  top: 2529px;
+  left: 1120px;
+  width: 36.7px;
+  height: 55px;
+  overflow: hidden;
+}
+.vectorIcon31 {
+  position: absolute;
+  top: 2529px;
+  left: 1120px;
+  width: 36.7px;
+  height: 55px;
+  overflow: hidden;
+}
+.contactUs {
+  position: absolute;
+  top: 2275px;
+  left: 72px;
+  font-size: var(--font-size-13xl);
+  display: inline-block;
+  width: 308px;
+  height: 57px;
+}
+.startTourButtonChild {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-22xl);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 240, 255, 0.3),
+    rgba(255, 28, 247, 0.3)
+  );
+  width: 366px;
+  height: 72px;
+}
+.emailUs {
+  position: absolute;
+  top: 22px;
+  right: 96px;
+  display: inline-block;
+  width: 118px;
+  height: 27px;
+}
+.startTourButton {
+  position: absolute;
+  top: 2377px;
+  left: 865px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  width: 366px;
+  height: 72px;
+  text-align: left;
+  color: var(--shades-shade-50);
+}
+.icbaselineAttachEmailIcon,
+.vectorIcon32 {
+  position: absolute;
+  top: 2393px;
+  left: 962px;
+  width: 39px;
+  height: 39px;
+  overflow: hidden;
+}
+.vectorIcon32 {
+  height: 1.74%;
+  width: 3.18%;
+  top: 96.02%;
+  right: 9.74%;
+  bottom: 2.24%;
+  left: 87.08%;
+  max-width: 100%;
+  max-height: 100%;
+}
+.groupIcon1,
+.vectorIcon33,
+.vectorIcon34,
+.vectorIcon35,
+.vectorIcon36,
+.vectorIcon37 {
+  position: absolute;
+  height: 0.67%;
+  width: 2.49%;
+  top: 96.02%;
+  right: 10.24%;
+  bottom: 3.3%;
+  left: 87.26%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.groupIcon1,
+.vectorIcon34,
+.vectorIcon35,
+.vectorIcon36,
+.vectorIcon37 {
+  height: 0.69%;
+  top: 97.07%;
+  right: 10.26%;
+  bottom: 2.24%;
+}
+.groupIcon1,
+.vectorIcon35,
+.vectorIcon36,
+.vectorIcon37 {
+  height: 0.82%;
+  width: 1.59%;
+  top: 96.71%;
+  right: 9.74%;
+  bottom: 2.47%;
+  left: 88.67%;
+}
+.groupIcon1,
+.vectorIcon36,
+.vectorIcon37 {
+  height: 1.82%;
+  width: 3.34%;
+  top: 89.92%;
+  right: 89.9%;
+  bottom: 8.26%;
+  left: 6.76%;
+}
+.vectorIcon36,
+.vectorIcon37 {
+  height: 1.78%;
+  width: 3.4%;
+  top: 93.22%;
+  right: 89.86%;
+  bottom: 5%;
+  left: 6.74%;
+}
+.vectorIcon37 {
+  height: 1.48%;
+  top: 96.63%;
+  bottom: 1.89%;
+}
+.features,
+.ourTeam {
+  position: absolute;
+  top: 2373px;
+  left: 269px;
+  text-decoration: underline;
+  display: inline-block;
+  width: 146px;
+  height: 15px;
+}
+.features {
+  left: 480px;
+}
+.abdurRaheem,
+.ahmedYar,
+.emphasis,
+.keyPoints,
+.lectures,
+.sheharyarQazi,
+.slides {
+  position: absolute;
+  top: 2434px;
+  left: 277px;
+  font-size: var(--font-size-xs);
+  display: inline-block;
+  width: 119px;
+  height: 15px;
+}
+.ahmedYar,
+.emphasis,
+.keyPoints,
+.lectures,
+.sheharyarQazi,
+.slides {
+  left: 461px;
+}
+.ahmedYar,
+.emphasis,
+.keyPoints,
+.lectures,
+.sheharyarQazi {
+  top: 2469px;
+  left: 265px;
+  width: 146px;
+}
+.ahmedYar,
+.emphasis,
+.keyPoints,
+.lectures {
+  left: 465px;
+}
+.ahmedYar,
+.emphasis,
+.lectures {
+  top: 2504px;
+  left: 247px;
+}
+.emphasis,
+.lectures {
+  left: 460px;
+}
+.lectures {
+  top: 2539px;
+  left: 458px;
+}
+.desktop13Child6 {
+  position: absolute;
+  top: 178.5px;
+  left: 204.5px;
+  background-color: var(--color-darkslateblue);
+  border: 3px solid rgba(255, 168, 0, 0.53);
+  box-sizing: border-box;
+  width: 1030px;
+  height: 445px;
+}
+.desktop13Child7 {
+  position: absolute;
+  top: 529px;
+  left: 515px;
+  border-radius: var(--br-8xs);
+  background-color: var(--color-steelblue-200);
+  width: 399px;
+  height: 75px;
+}
+.startPresenting {
+  position: absolute;
+  top: 551px;
+  left: 595px;
+  font-size: var(--font-size-5xl);
+  /* display: inline-block; */
+  width: 300px;
+  height: 31px;
+  background-color: rgba(50, 130, 189, 0.5); /* Use rgba for transparency */
+  border: 2px solid rgba(50, 130, 189, 0.5); /* Set border color and transparency */
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s; /* Add a smooth transition effect */
+ cursor: pointer;
+}
+
+.startPresenting:hover {
+  background-color: #7bc3f7; /* Change background color on hover */
+  border-color: #7bc3f7; /* Change border color on hover */
+
+}
+.keyPointsGeneration,
+.runtimeFigureHighlighting,
+.runtimeTextHighlighting,
+.transcription {
+  position: absolute;
+  top: 767px;
+  left: 330px;
+  font-size: var(--font-size-sm);
+  display: inline-block;
+  width: 126px;
+  height: 19px;
+}
+.keyPointsGeneration,
+.runtimeFigureHighlighting,
+.runtimeTextHighlighting {
+  top: 766px;
+  left: 510px;
+}
+.keyPointsGeneration,
+.runtimeFigureHighlighting {
+  top: 767px;
+  left: 670px;
+  width: 144px;
+}
+.keyPointsGeneration {
+  top: 766px;
+  left: 850px;
+}
+.iconParkOutlineslide {
+  position: absolute;
+  top: 543px;
+  left: 535px;
+  width: 54px;
+  height: 54px;
+  overflow: hidden;
+}
+.desktop13Child8 {
+  position: absolute;
+  top: 226px;
+  left: 483px;
+  width: 474px;
+  height: 263px;
+  object-fit: cover;
+}
+.desktop13 {
+  position: relative;
+  background: linear-gradient(90deg, #27114b, #000 94.97%);
+  width: 100%;
+  height: 2639px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-xl);
+  color: var(--color-gray);
+  font-family: var(--font-krona-one);
+}
+/* circles with figs */
+.bihighlightsIcon,
+.carbonchartPointIcon {
+  position: absolute;
+  top: 688px;
+  left: 725px;
+  width: 47px;
+  height: 47px;
+  overflow: hidden;
+}
+.carbonchartPointIcon {
+  height: 1.78%;
+  width: 3.26%;
+  top: 26.15%;
+  right: 29.93%;
+  bottom: 72.07%;
+  left: 66.81%;
+  max-width: 100%;
+  max-height: 100%;
+}
+.bxhighlightIcon,
+.iconParkOutlinetext {
+  position: absolute;
+  top: 687px;
+  left: 550px;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+}
+.iconParkOutlinetext {
+  top: 674px;
+  left: 370px;
+  width: 75px;
+  height: 75px;
+}
+.desktop13Child,
+.desktop13Item {
+  border: 3px solid var(--color-steelblue-100);
+}
+.desktop13Child {
+  position: absolute;
+  height: 3.56%;
+  width: 6.53%;
+  top: 25.2%;
+  right: 66.53%;
+  bottom: 71.24%;
+  left: 26.94%;
+  border-radius: 50%;
+  box-sizing: border-box;
+} 
+ .desktop13Item {
+  right: 53.82%;
+  left: 39.65%;
+}
+.desktop13Inner,
+.desktop13Item,
+.ellipseDiv {
+  position: absolute;
+  height: 3.56%;
+  width: 6.53%;
+  top: 25.2%;
+  bottom: 71.24%;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.desktop13Inner {
+  right: 41.11%;
+  left: 52.36%;
+  border: 5px solid #ffa800;
+}
+.ellipseDiv {
+  right: 28.4%;
+  left: 65.07%;
+  border: 3px solid var(--color-steelblue-100);
+}
+.loopergroupIcon {
+  position: absolute;
+  top: 580px;
+  left: 0;
+  width: 1440px;
+  height: 1154px;
+}
+.looperBgIcon {
+  position: relative;
+  top: 0;
+  left: 609px;
+  width: 831px;
+  height: 772.8px;
+}
+
+.powerfulPresentations {
+  margin: 0;
+}
+.powerfulPresentationsEffortContainer {
+  position: absolute;
+  top: 27px;
+  left: 253px;
+  font-size: var(--font-size-4xl);
+  line-height: 76px;
+  font-family: var(--font-stint-ultra-expanded);
+  color: var(--shades-shade-50);
+  white-space: pre-wrap;
+  display: inline-block;
+  width: 524px;
+  height: 49px;
+}
+.maskGroupIcon,
+.rectangleIcon {
+  position: absolute;
+  top: 823px;
+  left: -250px;
+  width: 1900.4px;
+  height: 704.7px;
+}
+.maskGroupIcon {
+  top: 865px;
+  left: 689px;
+  width: 1462px;
+  height: 1934.8px;
+}
+.illuminateYourContentContainer {
+  position: absolute;
+  top: 1064px;
+  left: 118px;
+  font-size: var(--font-size-20xl);
+  display: inline-block;
+  width: 639px;
+  height: 207px;
+}
+.desktop13Child1,
+.desktop13Child2 {
+  position: absolute;
+  top: 1496.6px;
+  left: 680px;
+  border-radius: var(--br-mini);
+  width: 627px;
+  height: 682px;
+}
+.desktop13Child2 {
+  top: 1496.5px;
+  left: 40px;
+  height: 679px;
+}
+.illustrationIcon {
+  position: absolute;
+  height: 13.3%;
+  width: 29.21%;
+  top: 59.87%;
+  right: 13.01%;
+  bottom: 26.83%;
+  left: 57.78%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.captureKnowledgeKey,
+.visualizeKnowledgeFigureContainer {
+  position: absolute;
+  top: 1968px;
+  left: 125px;
+  font-size: var(--font-size-13xl);
+  display: inline-block;
+  width: 526px;
+  height: 225px;
+}
+.captureKnowledgeKey {
+  top: 1969px;
+  left: 720px;
   width: 534px;
   height: 261px;
 }

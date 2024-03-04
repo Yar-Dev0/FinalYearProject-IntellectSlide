@@ -3,7 +3,7 @@ import styles from "./Desktop14.module.css";
 const Desktop14 = () => {
   return (
     <div className={styles.desktop14}>
-      <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" />
+      {/* <img className={styles.loopergroupIcon} alt="" src="/loopergroup.svg" /> */}
       <img className={styles.looperBgIcon} alt="" src="/looper-bg.svg" />
       <div className={styles.desktop14Child} />
       <div className={styles.component1}>

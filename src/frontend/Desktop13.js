@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Desktop13.module.css";
-import io from 'socket.io-client';
 
 const Desktop13 = () => {
   const navigate = useNavigate();
@@ -10,19 +9,15 @@ const Desktop13 = () => {
     navigate("/desktop-12");
   }, [navigate]);
 
-    
-
   const onHomeTextClick = useCallback(() => {
     navigate("/desktop-11");
   }, [navigate]);
 
 
   const onStartPresentingClick = async () => {
-   
-      
-    const stopRecording = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/stop_recording');
+        const response = await fetch('http://127.0.0.1:5000/voice_model');
         console.log("fetching data")
         const data = await response.json();
         console.log(data); 
@@ -30,40 +25,9 @@ const Desktop13 = () => {
         console.log('Error:', error);
       }
     };
-   
-    
-    const startRecording = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5000/start_recording');
-        console.log("fetching data")
-        const data = await response.json();
-        console.log(data); 
-      } catch (error) {
-        console.log('Error:', error);
-      }
-    };
-    
-    console.log((document.getElementById('startPresentingButton').textContent))
-
-    if(document.getElementById('startPresentingButton').textContent=="Start Presenting")
-    {
-      document.getElementById('startPresentingButton').textContent="Stop Presenting";
-      startRecording();
-    }
-    else  if(document.getElementById('startPresentingButton').textContent=="Stop Presenting")
-    {
-      document.getElementById('startPresentingButton').textContent="Start Presenting";
-      stopRecording();
-
-    }
-
-    }
   
-    
-   
-  
-
-  
+    fetchData();
+  }
 
 
 
@@ -239,7 +203,7 @@ const Desktop13 = () => {
       <div className={styles.lectures}>Lectures</div>
       <div className={styles.desktop13Child6} />
       <div className={styles.desktop13Child7} />
-      <button id="startPresentingButton" className={styles.startPresenting} onClick={onStartPresentingClick}>Start Presenting</button>
+      <button className={styles.startPresenting} onClick={onStartPresentingClick}>Start Presenting</button>
       <div className={styles.transcription}>Transcription</div>
       <div className={styles.runtimeTextHighlighting}>
         Runtime Text Highlighting

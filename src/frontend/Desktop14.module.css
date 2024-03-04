@@ -5,7 +5,7 @@
   width: 1440px;
   height: 591px;
 }
-/* .desktop14Child, */
+.desktop14Child,
 .looperBgIcon {
   position: absolute;
   top: 0;
@@ -69,7 +69,7 @@
 .desktop14Item {
   position: absolute;
   top: 311px;
-  left: 144px;
+  left: 60px;
   border-radius: var(--br-69xl);
   background: linear-gradient(
     0deg,
@@ -162,7 +162,7 @@
 }
 .lecture12 {
   top: 319px;
-  left: 163px;
+  left: 90px;
   width: 228px;
 }
 .programing,
@@ -171,17 +171,17 @@
 }
 .programing {
   top: 317px;
-  left: 1055px;
+  left: 970px;
   height: 58px;
 }
 .thDec2023 {
   top: 319px;
-  left: 593px;
+  left: 550px;
 }
 .desktop14Inner {
   position: absolute;
   top: 28px;
-  left: 900px;
+  left: 850px;
   border-radius: var(--br-3xs);
   background-color: var(--color-steelblue-200);
   width: 400px;
@@ -217,7 +217,7 @@
 .rectangleDiv {
   position: absolute;
   top: 977px;
-  left: 536px;
+  left: 450px;
   border-radius: var(--br-8xs);
   background-color: var(--color-steelblue-200);
   width: 399px;
@@ -226,7 +226,7 @@
 .startPresenting {
   position: absolute;
   top: 999px;
-  left: 616px;
+  left: 520px;
   font-size: var(--font-size-5xl);
   font-family: var(--font-krona-one);
   color: var(--color-gray);
@@ -238,7 +238,7 @@
 .iconParkOutlineslide {
   position: absolute;
   top: 991px;
-  left: 556px;
+  left: 470px;
   width: 54px;
   height: 54px;
   overflow: hidden;
@@ -248,22 +248,22 @@
 .epeditIcon2 {
   position: absolute;
   top: 324px;
-  left: 158px;
+  left: 100px;
   width: 36px;
   height: 36px;
   overflow: hidden;
 }
 .epeditIcon1,
 .epeditIcon2 {
-  left: 593px;
+  left: 550px;
 }
 .epeditIcon2 {
-  left: 1065px;
+  left: 980px;
 }
 .desktop14Child1 {
   position: absolute;
   top: 417px;
-  left: 106px;
+  left: 15px;
   background-color: var(--color-darkslateblue-200);
   border: 1px solid var(--color-steelblue-100);
   box-sizing: border-box;
@@ -285,7 +285,7 @@
 .keyPointsContraryContainer {
   position: absolute;
   top: 433px;
-  left: 137px;
+  left: 70px;
   font-family: var(--font-inherit);
   color: var(--color-gray);
   white-space: pre-wrap;
@@ -297,7 +297,7 @@
 .desktop14Child2 {
   position: absolute;
   top: 694px;
-  left: 106px;
+  left: 15px;
   background-color: var(--color-darkslateblue-200);
   border: 1px solid var(--color-steelblue-100);
   box-sizing: border-box;
@@ -307,7 +307,7 @@
 .emphasizedWordsContraryContainer {
   position: absolute;
   top: 707px;
-  left: 126px;
+  left: 70px;
   font-family: var(--font-inherit);
   color: var(--color-gray);
   display: inline-block;
