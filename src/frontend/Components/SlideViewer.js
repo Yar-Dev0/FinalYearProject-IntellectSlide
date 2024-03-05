@@ -1,11 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import FileViewer from "offices-viewer";
 import "../Styles/SlideViewer.css";
+import { useNavigate } from "react-router-dom";
+
 
 const SlideViewer = (props) => {
   let count = 0;
   const [fileType, setFileType] = useState({});
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const navigate = useNavigate(); // Use useNavigate hook here
+
+
+  const onStopPresentingClick = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/stop_recording');
+      console.log("fetching data")
+      const data = await response.json();
+      console.log(data); 
+      toggleFullscreen();
+      navigate("/"); // Navigate using the navigate function
+    } catch (error) {
+      console.log('Error:', error);
+    }
+  };
 
   useEffect(() => {
     if(props.filePath)
@@ -25,12 +42,6 @@ const SlideViewer = (props) => {
     let outermostElement = elementsWithId[1];
 
  
-    if (outermostElement) {
-      // Now you have the outermost element with the specified ID
-      console.log(outermostElement);
-    } else {
-      console.log('No outermost element found with the specified ID');
-    }
     // outermostElement.scrollTo(1000, 0)
     const totalScrollableWidth = outermostElement.scrollWidth - outermostElement.clientWidth;
     // outermostElement.scrollLeft += 1566.39991; 
@@ -107,10 +118,10 @@ const SlideViewer = (props) => {
         </div>
       )}
 
-<div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-danger">Stop Recording</button>
-  {/* <button type="button" class="btn btn-secondary">Middle</button>
-  <button type="button" class="btn btn-secondary">Right</button> */}
+<div className="btn-group" role="group" aria-label="Basic example">
+  <button type="button" className="btn btn-danger" onClick={onStopPresentingClick}>Stop Recording</button>
+  {/* <button type="button" className="btn btn-secondary">Middle</button>
+  <button type="button" className="btn btn-secondary">Right</button> */}
 </div>
     </div>
   );
