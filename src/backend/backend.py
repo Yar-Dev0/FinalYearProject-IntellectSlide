@@ -9,6 +9,11 @@ import torch
 import time
 import psycopg2
 
+from sentence_transformers import SentenceTransformer, util
+import nltk
+from nltk.tokenize import sent_tokenize
+
+nltk.download('punkt')
 
 app = Flask(__name__)
 cors = CORS(app, origins=["http://localhost:3000"])
@@ -66,6 +71,44 @@ def execute_query(query, values=None):
         print(f'Database connection error: {str(e)}')
         return f'Database connection error: {str(e)}'
     
+
+
+#----------------------------------------------------------------
+
+def context_match(query, slideData):
+    embedder = SentenceTransformer("all-MiniLM-L6-v2")
+
+    #sentences = nltk.sent_tokenize(slideData)
+    sentences = slideData.split("\n")
+    #sentences = sent_tokenize(slideData)
+
+    print("*********This is slide data**************** \n", sentences)
+    
+
+    # Adding sentences to pupulate the list
+    corpus = []
+    corpus.extend(sentences)
+    corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
+
+    # Adding sentences to populate the list
+    queries = [] 
+    queries.extend(query)
+
+    query_embedding = embedder.encode(queries, convert_to_tensor=True)
+
+    # We use cosine-similarity and torch.topk 
+    cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
+    top_results = torch.topk(cos_scores, k=1)
+
+    for score, idx in zip(top_results[0], top_results[1]):
+        matchedSenrtence = corpus[idx]
+        print('The match sentence is : ', matchedSenrtence)
+
+    return matchedSenrtence
+
+#----------------------------------------------------------------
+
+
 def start_record():
     global model
     global decoder
@@ -142,7 +185,7 @@ def stop_recording():
     input = prepare_model_input(read_batch(batches[0]),
                                 device=torch.device('cpu'))
 
-    WAVE_OUTPUT_FILENAME = "D:/University/FYP/FYP Repo/updated.wav"
+    WAVE_OUTPUT_FILENAME = "output.wav"
     output = model(input)
 
     end_time = time.time()
@@ -150,6 +193,28 @@ def stop_recording():
     for example in output:
         transcription = decoder(example.cpu())
         print(transcription)
+
+    # ---- context Match func call -----
+    slideNo = 12
+    query_getSlideContent = "SELECT (\"textContent\") FROM \"slide\" WHERE \"slideNo\"= 12"
+    # "SELECT MAX(\"presentationId\") FROM \"presentation\";"
+
+    cur = connection.cursor()
+    cur.execute(query_getSlideContent)
+    slideContent = cur.fetchone()[0]
+    connection.commit()
+    cur.close()
+
+    print("This is slide data\n")
+    print(slideContent)
+
+    matchedSentence = context_match(transcription, slideContent)
+
+
+    print("The matched sentence with slideNo = 12")
+    print(matchedSentence)
+   
+    #--------------------------------
 
     global start_time
     execution_time = end_time - start_time
@@ -163,8 +228,6 @@ def stop_recording():
     print("Received JSON data:", string_data)
 
     return json.loads(string_data)
-
-
 
 @app.route('/add_user', methods=['GET'])
 def add_user():
