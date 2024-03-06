@@ -8,6 +8,8 @@ import pyaudio
 import torch
 import time
 import psycopg2
+import wave
+import numpy as np
 
 app = Flask(__name__)
 cors = CORS(app, origins=["http://localhost:3000"])
@@ -26,6 +28,7 @@ decoder=0
 utils=0
 stream=0
 start_time=0
+previous_frames_count = 0
 # Load the model and get utility functions
 model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_stt',
@@ -100,7 +103,7 @@ def start_record():
     while recording_status['status'] == "record":
         data = stream.read(CHUNK)
         frames.append(data)
-
+        
     
 
 
@@ -162,6 +165,69 @@ def stop_recording():
     print("Received JSON data:", string_data)
 
     return json.loads(string_data)
+
+
+def transcribe_data():
+    global model
+    global decoder
+    global utils
+    global stream
+    global frames
+    global previous_frames_count
+    import copy
+    # tempFrames = copy.copy(frames)
+    tempFrames = copy.copy(frames[previous_frames_count:])
+
+    # Update the previous_frames_count to the current count
+    previous_frames_count = len(frames)
+
+    
+ 
+    p = pyaudio.PyAudio()
+
+  
+
+    import wave
+    CHUNK = 1024
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 16000
+    WAVE_OUTPUT_FILENAME = "temp.wav"
+    # Save the recording to a file
+    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(p.get_sample_size(FORMAT))
+    wf.setframerate(RATE)
+    wf.writeframes(b''.join(tempFrames))
+    wf.close()
+
+    # Load the recording and transcribe
+    test_files = [WAVE_OUTPUT_FILENAME]
+    batches = split_into_batches(test_files, batch_size=10)
+    input = prepare_model_input(read_batch(batches[0]),
+                                device=torch.device('cpu'))
+
+    output = model(input)
+
+    
+    transcription=""
+    for example in output:
+        transcription = decoder(example.cpu())
+        print(transcription)
+
+    return transcription
+
+
+
+@app.route('/match_context', methods=['GET'])
+def match_context():
+    
+    print("call recieved")
+    text=transcribe_data()
+    # print(text)
+    string_data = f'{{"status": "context matched"}}'
+    return json.loads(string_data)
+
 
 
 

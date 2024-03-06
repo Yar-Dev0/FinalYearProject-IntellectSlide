@@ -11,6 +11,36 @@ const SlideViewer = (props) => {
   const navigate = useNavigate(); // Use useNavigate hook here
 
 
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === 's') {
+        // Call your function here
+        console.log("s clicked")
+        matchContext();
+      }
+    };
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('keydown', handleKeyPress);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []); // Empty dependency array ensures that the effect runs only once on mount
+
+  const matchContext = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/match_context');
+      const data = await response.json();
+      console.log(data); 
+    } catch (error) {
+      console.log('Error:', error);
+    }
+  };
+
+
+
   const onStopPresentingClick = async () => {
     try {
       const response = await fetch('http://127.0.0.1:5000/stop_recording');
