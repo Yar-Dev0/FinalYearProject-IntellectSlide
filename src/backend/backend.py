@@ -11,6 +11,13 @@ import psycopg2
 import wave
 import numpy as np
 
+
+from sentence_transformers import SentenceTransformer, util
+import nltk
+from nltk.tokenize import sent_tokenize
+
+# nltk.download('punkt')
+
 app = Flask(__name__)
 cors = CORS(app, origins=["http://localhost:3000"])
 
@@ -29,6 +36,8 @@ utils=0
 stream=0
 start_time=0
 previous_frames_count = 0
+slideCount=1
+presentationId=20
 # Load the model and get utility functions
 model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
                                     model='silero_stt',
@@ -67,6 +76,45 @@ def execute_query(query, values=None):
     except Exception as e:  
         print(f'Database connection error: {str(e)}')
         return f'Database connection error: {str(e)}'
+    
+
+
+#----------------------------------------------------------------
+
+def context_match(query, slideData):
+    embedder = SentenceTransformer("all-MiniLM-L6-v2")
+
+    #sentences = nltk.sent_tokenize(slideData)
+    sentences = slideData.split("\n")
+    #sentences = sent_tokenize(slideData)
+
+    # print("*********This is slide data**************** \n\n", sentences)
+    # print("Hello testing, thisis a test line.\n")
+
+    # Adding sentences to pupulate the list
+    corpus = []
+    corpus.extend(sentences)
+    corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
+
+    # Adding sentences to populate the list
+    queries = query
+
+    query_embedding = embedder.encode(queries, convert_to_tensor=True)
+
+    # We use cosine-similarity and torch.topk 
+    cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
+    top_results = torch.topk(cos_scores, k=1)
+
+    print("\n\n======================\n\n")
+    print("Query:", queries)
+
+    for score, idx in zip(top_results[0], top_results[1]):
+        matchedSentence = corpus[idx]
+        # print('The match sentence is : ', matchedSentence)
+
+    return matchedSentence
+
+#----------------------------------------------------------------
     
 def start_record():
     global model
@@ -213,21 +261,58 @@ def transcribe_data():
     transcription=""
     for example in output:
         transcription = decoder(example.cpu())
-        print(transcription)
+        # print(transcription)
 
     return transcription
 
 
 
 @app.route('/match_context', methods=['GET'])
-def match_context():
-    
+def initialize_match_context():
+    transcription=[]
     print("call recieved")
-    text=transcribe_data()
-    # print(text)
-    string_data = f'{{"status": "context matched"}}'
+    transcription=transcribe_data()
+    
+    global slideCount
+    global presentationId
+    # ---- context Match func call -----
+    print("Presentation Id: ", presentationId)
+    print("Slide no: ", slideCount)
+    query_getSlideContent = f"SELECT \"textContent\" FROM \"slide\" WHERE \"slideNo\" = {slideCount} and \"presentationId\" = {presentationId}"
+
+
+    cur = connection.cursor()
+    cur.execute(query_getSlideContent)
+    slideContent = cur.fetchone()[0]
+    connection.commit()
+    cur.close()
+
+    print("\nThis slide data\n")
+    print(slideContent)
+
+    matchedSentence = context_match(transcription, slideContent)
+
+
+    print("\nThe matched sentence with slideNo = 12\n")
+    print(matchedSentence)
+
+
+
+    string_data = f'{{"matched sentence": "{matchedSentence}"}}'
     return json.loads(string_data)
 
+
+@app.route('/update_slide_count', methods=['POST'])
+def update_slide_count():
+    global slideCount
+    operation = request.form.get('operation', 'next')
+    if(operation == "next"):
+        slideCount=slideCount + 1
+    elif(operation == "previous"):
+        slideCount=slideCount - 1
+    result = f'{{"updated slide number": "{slideCount}"}}'
+
+    return json.loads(result)
 
 
 
@@ -261,8 +346,9 @@ def stop_model():
 
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
+    global presentationId
 
-    string_data = f'{{"transcription": "db upload stopped for the moment. uncomment the code below to start uplodaing to db"}}'
+    string_data = f'{{"transcription": "db upload stopped for the moment. uncomment this line and the line below to start uplodaing to db"}}'
     return json.loads(string_data)
     try:
         pptx_file = request.files['pptxFile']   
@@ -284,14 +370,12 @@ def upload_pptx():
 
 
         query="SELECT MAX(\"presentationId\") FROM \"presentation\";"
-        presentationId=9
-        print("Presentation Id", presentationId)
         cur = connection.cursor()
         cur.execute(query)
         presentationId = cur.fetchone()[0]
         connection.commit()
         cur.close()
-        print("Presentation Id hehehehe", presentationId)
+        print("Presentation Id: ", presentationId)
         presentation = Presentation(pptx_content)
       
         for slide_number, slide in enumerate(presentation.slides, start=1):

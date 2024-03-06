@@ -58,7 +58,6 @@ const SlideViewer = (props) => {
     if(props.filePath)
     {
       setFileType("pptx");
-      console.log(props.filePath)
       toggleFullscreen();
     }
    
@@ -67,7 +66,33 @@ const SlideViewer = (props) => {
 
   const slide = (shift) => {
     const elementsWithId = document.querySelectorAll('.pg-viewer');
-    console.log(elementsWithId)
+    let operation="next"
+    
+
+    if (shift > 0)
+    {
+      operation= "next"
+    }
+    else if (shift < 0)
+    {
+      operation= "previous"
+    }
+    const formData = new FormData();
+    formData.append('operation', operation);
+    console.log(operation)
+
+
+    fetch('http://127.0.0.1:5000/update_slide_count', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Response from server:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 
     let outermostElement = elementsWithId[1];
 
