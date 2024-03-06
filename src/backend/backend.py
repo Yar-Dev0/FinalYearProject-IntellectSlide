@@ -82,8 +82,8 @@ def context_match(query, slideData):
     sentences = slideData.split("\n")
     #sentences = sent_tokenize(slideData)
 
-    print("*********This is slide data**************** \n", sentences)
-    
+    # print("*********This is slide data**************** \n\n", sentences)
+    # print("Hello testing, thisis a test line.\n")
 
     # Adding sentences to pupulate the list
     corpus = []
@@ -91,8 +91,7 @@ def context_match(query, slideData):
     corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
 
     # Adding sentences to populate the list
-    queries = [] 
-    queries.extend(query)
+    queries = query
 
     query_embedding = embedder.encode(queries, convert_to_tensor=True)
 
@@ -100,11 +99,14 @@ def context_match(query, slideData):
     cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
     top_results = torch.topk(cos_scores, k=1)
 
-    for score, idx in zip(top_results[0], top_results[1]):
-        matchedSenrtence = corpus[idx]
-        print('The match sentence is : ', matchedSenrtence)
+    print("\n\n======================\n\n")
+    print("Query:", queries)
 
-    return matchedSenrtence
+    for score, idx in zip(top_results[0], top_results[1]):
+        matchedSentence = corpus[idx]
+        # print('The match sentence is : ', matchedSentence)
+
+    return matchedSentence
 
 #----------------------------------------------------------------
 
@@ -189,11 +191,12 @@ def stop_recording():
     output = model(input)
 
     end_time = time.time()
-    transcription=""
+    transcription=[]
     for example in output:
         transcription = decoder(example.cpu())
         print(transcription)
 
+    print("\n****The Transcription is*****\n\n", transcription)
     # ---- context Match func call -----
     slideNo = 12
     query_getSlideContent = "SELECT (\"textContent\") FROM \"slide\" WHERE \"slideNo\"= 12"
@@ -205,13 +208,13 @@ def stop_recording():
     connection.commit()
     cur.close()
 
-    print("This is slide data\n")
+    print("\nThis slide data\n")
     print(slideContent)
 
     matchedSentence = context_match(transcription, slideContent)
 
 
-    print("The matched sentence with slideNo = 12")
+    print("\nThe matched sentence with slideNo = 12\n")
     print(matchedSentence)
    
     #--------------------------------
