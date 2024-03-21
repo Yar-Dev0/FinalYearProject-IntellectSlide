@@ -305,6 +305,8 @@ def initialize_match_context():
 @app.route('/update_slide_count', methods=['POST'])
 def update_slide_count():
     global slideCount
+    global previous_frames_count
+    previous_frames_count = len(frames)
     operation = request.form.get('operation', 'next')
     if(operation == "next"):
         slideCount=slideCount + 1
@@ -347,6 +349,8 @@ def stop_model():
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
     global presentationId
+    global slideCount
+    slideCount=1
 
     string_data = f'{{"transcription": "db upload stopped for the moment. uncomment this line and the line below to start uplodaing to db"}}'
     return json.loads(string_data)
@@ -398,4 +402,4 @@ def upload_pptx():
 
 
 if __name__ == '__main__':
-   app.run(debug=True)
+   app.run(debug=True, port=8080)

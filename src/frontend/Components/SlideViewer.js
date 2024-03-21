@@ -31,10 +31,33 @@ const SlideViewer = (props) => {
 
   const matchContext = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/match_context');
+      const response = await fetch('http://127.0.0.1:8080/match_context');
       const data = await response.json();
       console.log(data); 
-    } catch (error) {
+      const elements = document.getElementsByClassName('h-left');
+
+      // Convert HTMLCollection to an array
+      const elementsArray = Array.from(elements);
+      // console.log(elements)
+  
+      // Iterate over each element
+      elementsArray.forEach(element => {
+        // Find the span element with class "text-block_css_8" inside the current element
+       
+        // Extract text content from the span element
+        const textContent = element.innerText;
+  
+        // Log the text content to the console or do something else with it
+        
+
+        if(textContent == data['matched sentence'])
+        {
+          console.log(textContent);
+          console.log("hurrah")
+        }
+
+    });
+  } catch (error) {
       console.log('Error:', error);
     }
   };
@@ -43,7 +66,7 @@ const SlideViewer = (props) => {
 
   const onStopPresentingClick = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/stop_recording');
+      const response = await fetch('http://127.0.0.1:8080/stop_recording');
       console.log("fetching data")
       const data = await response.json();
       console.log(data); 
@@ -82,7 +105,7 @@ const SlideViewer = (props) => {
     console.log(operation)
 
 
-    fetch('http://127.0.0.1:5000/update_slide_count', {
+    fetch('http://127.0.0.1:8080/update_slide_count', {
       method: 'POST',
       body: formData,
     })

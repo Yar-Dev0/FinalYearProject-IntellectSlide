@@ -54,7 +54,7 @@ const [selectedFiles, setSelectedFiles] = useState(null);
 
           
           // Send the file to the Flask backend using fetch
-          fetch('http://127.0.0.1:5000/upload_pptx', {
+          fetch('http://127.0.0.1:8080/upload_pptx', {
             method: 'POST',
             body: formData,
           })
