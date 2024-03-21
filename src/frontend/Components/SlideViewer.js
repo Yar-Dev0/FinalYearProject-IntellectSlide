@@ -8,7 +8,14 @@ const SlideViewer = (props) => {
   let count = 0;
   const [fileType, setFileType] = useState({});
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [slideNum, setslideNum] = useState(0);
   const navigate = useNavigate(); // Use useNavigate hook here
+
+
+  
+  useEffect(() => {
+    console.log("slideNum" + slideNum)
+  }, [slideNum]); // Empty dependency array ensures that the effect runs only once on mount
 
 
   useEffect(() => {
@@ -38,23 +45,19 @@ const SlideViewer = (props) => {
 
       // Convert HTMLCollection to an array
       const elementsArray = Array.from(elements);
-      // console.log(elements)
+      console.log(data['matched sentence'])
   
       // Iterate over each element
       elementsArray.forEach(element => {
-        // Find the span element with class "text-block_css_8" inside the current element
-       
-        // Extract text content from the span element
         const textContent = element.innerText;
-  
-        // Log the text content to the console or do something else with it
-        
+        let stringWithoutSpecialChars = removeSpecialCharacters(textContent);
+        let stringWithoutSpecialChars2 = removeSpecialCharacters(data['matched sentence']);
+        let stringWithoutSpecialChars3= stringWithoutSpecialChars.replace(/\u00A0/, " ");
 
-        if(textContent == data['matched sentence'])
-        {
-          console.log(textContent);
-          console.log("hurrah")
-        }
+        if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2) {
+          console.log("hurrah", textContent);
+          element.style.backgroundColor = 'yellow';
+      }
 
     });
   } catch (error) {
@@ -63,7 +66,10 @@ const SlideViewer = (props) => {
   };
 
 
-
+  function removeSpecialCharacters(str) {
+    // Use a regular expression to replace non-breaking spaces and other special characters with an empty string
+    return str.replace(/[^\w\s]/g, '');
+}
   const onStopPresentingClick = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8080/stop_recording');
@@ -87,18 +93,30 @@ const SlideViewer = (props) => {
   }, [props.filePath]);
    
 
+
+
+
   const slide = (shift) => {
     const elementsWithId = document.querySelectorAll('.pg-viewer');
+    let outermostElement = elementsWithId[1];
+
+ 
+    // outermostElement.scrollTo(1000, 0)
+    // outermostElement.scrollLeft += 1566.39991; 
+    outermostElement.scrollLeft += shift;
     let operation="next"
     
-
+   
     if (shift > 0)
     {
       operation= "next"
+      // setslideNum(slideNum + 1)
     }
     else if (shift < 0)
     {
       operation= "previous"
+      // setslideNum(slideNum - 1)
+
     }
     const formData = new FormData();
     formData.append('operation', operation);
@@ -109,22 +127,16 @@ const SlideViewer = (props) => {
       method: 'POST',
       body: formData,
     })
-      .then(response => response.json())
-      .then(data => {
+    .then(response => response.json())
+    .then(data => {
         console.log('Response from server:', data);
-      })
+        // setslideNum(data['updated slide number']); // Move setslideNum here
+    })
       .catch(error => {
         console.error('Error:', error);
       });
 
-    let outermostElement = elementsWithId[1];
-
- 
-    // outermostElement.scrollTo(1000, 0)
-    const totalScrollableWidth = outermostElement.scrollWidth - outermostElement.clientWidth;
-    // outermostElement.scrollLeft += 1566.39991; 
-    outermostElement.scrollLeft += shift;
-    // outermostElement.scrollLeft += totalScrollableWidth; 
+   
 }
 
 
