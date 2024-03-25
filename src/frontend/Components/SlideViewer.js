@@ -9,13 +9,25 @@ const SlideViewer = (props) => {
   const [fileType, setFileType] = useState({});
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideNum, setslideNum] = useState(0);
+  const [hehe, setHehe] = useState(0);
   const navigate = useNavigate(); // Use useNavigate hook here
+  const scrollRef = useRef(null); // Ref to store scroll position
+
 
 
   
   useEffect(() => {
-    console.log("slideNum" + slideNum)
-  }, [slideNum]); // Empty dependency array ensures that the effect runs only once on mount
+    // console.log("slideNum" , slideNum)
+    setTimeout(() => {
+      const elementsWithId = document.querySelectorAll(".pg-viewer");
+      let outermostElement = elementsWithId[1];
+      outermostElement.scrollLeft = parseInt(localStorage.getItem('scroll'));
+    }, 10);
+  
+  }, [slideNum]); 
+
+
+  
 
 
   useEffect(() => {
@@ -99,11 +111,8 @@ const SlideViewer = (props) => {
   const slide = (shift) => {
     const elementsWithId = document.querySelectorAll('.pg-viewer');
     let outermostElement = elementsWithId[1];
-
- 
-    // outermostElement.scrollTo(1000, 0)
-    // outermostElement.scrollLeft += 1566.39991; 
     outermostElement.scrollLeft += shift;
+    localStorage.setItem('scroll', JSON.stringify(outermostElement.scrollLeft));
     let operation="next"
     
    
@@ -111,11 +120,14 @@ const SlideViewer = (props) => {
     {
       operation= "next"
       // setslideNum(slideNum + 1)
+      // setHehe("lol")
     }
     else if (shift < 0)
     {
       operation= "previous"
       // setslideNum(slideNum - 1)
+      // setHehe("lol")
+
 
     }
     const formData = new FormData();
@@ -130,7 +142,7 @@ const SlideViewer = (props) => {
     .then(response => response.json())
     .then(data => {
         console.log('Response from server:', data);
-        // setslideNum(data['updated slide number']); // Move setslideNum here
+          setslideNum(data["updated slide number"]);
     })
       .catch(error => {
         console.error('Error:', error);
@@ -138,6 +150,8 @@ const SlideViewer = (props) => {
 
    
 }
+
+
 
 
 
