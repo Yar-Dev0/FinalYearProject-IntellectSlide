@@ -94,13 +94,16 @@ const SlideViewer = (props) => {
       const response = await fetch('http://127.0.0.1:8080/match_context');
       const data = await response.json();
       console.log(data['matched sentence'])
-      const element=elementsArray[slideNum - 1 ]
-      const bulletPointsDiv = element.querySelectorAll('.h-left');
+      
+
+
+      const elements=elementsArray[slideNum - 1 ]
+      const bulletPointsDiv = document.getElementsByClassName('h-left');
       const bulletPoints=Array.from(bulletPointsDiv)
       console.log(bulletPoints)
 
 
-      bulletPointsDiv.forEach(element => {
+      bulletPoints.forEach(element => {
         const textContent = element.innerText;
         let stringWithoutSpecialChars = removeSpecialCharacters(textContent);
         let stringWithoutSpecialChars2 = removeSpecialCharacters(data['matched sentence']);
@@ -109,16 +112,22 @@ const SlideViewer = (props) => {
         // console.log("on db", stringWithoutSpecialChars2);
 
 
-        if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2) {
-          console.log("hurrah", textContent);
-          console.log("color", element.style.backgroundColor)
-
+        if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2  ) {
+          console.log("hurrah", textContent, data['matched sentence']);
           element.style.backgroundColor = 'yellow';
-          element.style.setProperty('background-color', 'yellow', 'important');
-          console.log("color", element.style.backgroundColor)
       }
 
+      if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
+        console.log("bhurrah", textContent, data['matched sentence']);
+        element.style.backgroundColor = 'yellow';
+    }
+
+
+
+
     });
+
+    
 
      
   } catch (error) {
@@ -130,6 +139,20 @@ const SlideViewer = (props) => {
   function removeSpecialCharacters(str) {
     // Use a regular expression to replace non-breaking spaces and other special characters with an empty string
     return str.replace(/[^\w\s]/g, '');
+}
+
+
+
+function areStringsEqual(str1, str2) {    //to handle case of nearly equal
+  const levenshtein = require('fast-levenshtein');
+  // Calculate the Levenshtein distance between the two strings
+  const distance = levenshtein.get(str1, str2);
+
+  // Define a threshold for acceptable similarity
+  const threshold = 10; // Adjust this value based on your requirements
+
+  // Compare the distance with the threshold
+  return distance <= threshold;
 }
   const onStopPresentingClick = async () => {
     try {
@@ -144,8 +167,6 @@ const SlideViewer = (props) => {
     }
   };
 
-  
-   
 
 
 
