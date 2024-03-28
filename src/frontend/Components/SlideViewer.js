@@ -100,6 +100,11 @@ const SlideViewer = (props) => {
 
 
       bulletPoints.forEach(element => {
+        element.style.backgroundColor = '';
+    });
+
+
+      bulletPoints.forEach(element => {
         const textContent = element.innerText;
         let stringWithoutSpecialChars = removeSpecialCharacters(textContent);
         let stringWithoutSpecialChars2 = removeSpecialCharacters(data['matched sentence']);
@@ -113,10 +118,23 @@ const SlideViewer = (props) => {
           element.style.backgroundColor = 'yellow';
       }
 
+    //   if (stringWithoutSpecialChars3.includes(stringWithoutSpecialChars2)   ) {
+    //     console.log("sub 1");
+    //     element.style.backgroundColor = 'yellow';
+    // }
+
+    if (stringWithoutSpecialChars2.includes(stringWithoutSpecialChars3) &&  stringWithoutSpecialChars3 != " "  ) {
+      console.log("sub 2");
+      console.log(stringWithoutSpecialChars3)
+      element.style.backgroundColor = 'yellow';
+  }
       if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
         console.log("bhurrah");
+      // console.log(stringWithoutSpecialChars3)
         element.style.backgroundColor = 'yellow';
+        
     }
+ 
 
 
 
@@ -196,7 +214,7 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     .then(response => response.json())
     .then(data => {
         console.log('Response from server:', data);
-          setslideNum(data["updated slide number"]);
+          // setslideNum(data["updated slide number"]);
     })
       .catch(error => {
         console.error('Error:', error);
