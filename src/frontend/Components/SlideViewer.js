@@ -14,7 +14,6 @@ const SlideViewer = (props) => {
 
 
   useEffect(() => {
-    console.log("slideNum" , slideNum)
     setTimeout(() => {
       const elementsWithId = document.querySelectorAll(".pg-viewer");
       let outermostElement = elementsWithId[1];
@@ -28,7 +27,6 @@ const SlideViewer = (props) => {
     
     setTimeout(() => {
       setElements()
-      console.log("in set Elements" , slideNum)
     }, 1000);
      
   }, []); 
@@ -36,7 +34,7 @@ const SlideViewer = (props) => {
 
   useEffect(() => {
     
-    console.log("elementArray", elementsArray)
+    // console.log("elementArray", elementsArray)
 
   }, [elementsArray]); 
 
@@ -73,7 +71,7 @@ const SlideViewer = (props) => {
     const handleKeyPress = (event) => {
       if (event.key === 's') {
         // Call your function here
-        console.log("s clicked")
+        // console.log("s clicked") 
         matchContext();
       }
     };
@@ -89,18 +87,16 @@ const SlideViewer = (props) => {
 
   const matchContext = async () => {
     try {
-
-      console.log("slideNum in matchContext" , slideNum )
       const response = await fetch('http://127.0.0.1:8080/match_context');
       const data = await response.json();
-      console.log(data['matched sentence'])
+      console.log(data)
       
 
 
       const elements=elementsArray[slideNum - 1 ]
       const bulletPointsDiv = document.getElementsByClassName('h-left');
       const bulletPoints=Array.from(bulletPointsDiv)
-      console.log(bulletPoints)
+      // console.log(bulletPoints)
 
 
       bulletPoints.forEach(element => {
@@ -113,12 +109,12 @@ const SlideViewer = (props) => {
 
 
         if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2  ) {
-          console.log("hurrah", textContent, data['matched sentence']);
+          console.log("hurrah");
           element.style.backgroundColor = 'yellow';
       }
 
       if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
-        console.log("bhurrah", textContent, data['matched sentence']);
+        console.log("bhurrah");
         element.style.backgroundColor = 'yellow';
     }
 
@@ -191,7 +187,6 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     }
     const formData = new FormData();
     formData.append('operation', operation);
-    console.log(operation)
 
 
     fetch('http://127.0.0.1:8080/update_slide_count', {
