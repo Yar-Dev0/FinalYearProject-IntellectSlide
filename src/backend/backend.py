@@ -269,36 +269,36 @@ def transcribe_data():
 
 @app.route('/match_context', methods=['GET'])
 def initialize_match_context():
-    transcription=[]
-    print("call recieved")
-    transcription=transcribe_data()
+    # transcription=[]
+    # print("call recieved")
+    # transcription=transcribe_data()
     
-    global slideCount
-    global presentationId
-    # ---- context Match func call -----
-    print("Presentation Id: ", presentationId)
-    print("Slide no: ", slideCount)
-    query_getSlideContent = f"SELECT \"textContent\" FROM \"slide\" WHERE \"slideNo\" = {slideCount} and \"presentationId\" = {presentationId}"
+    # global slideCount
+    # global presentationId
+    # # ---- context Match func call -----
+    # print("Presentation Id: ", presentationId)
+    # print("Slide no: ", slideCount)
+    # query_getSlideContent = f"SELECT \"textContent\" FROM \"slide\" WHERE \"slideNo\" = {slideCount} and \"presentationId\" = {presentationId}"
 
 
-    cur = connection.cursor()
-    cur.execute(query_getSlideContent)
-    slideContent = cur.fetchone()[0]
-    connection.commit()
-    cur.close()
+    # cur = connection.cursor()
+    # cur.execute(query_getSlideContent)
+    # slideContent = cur.fetchone()[0]
+    # connection.commit()
+    # cur.close()
 
-    print("\nThis slide data\n")
-    print(slideContent)
+    # print("\nThis slide data\n")
+    # print(slideContent)
 
-    matchedSentence = context_match(transcription, slideContent)
-
-
-    print("\nThe matched sentence with slideNo = 12\n")
-    print(matchedSentence)
+    # matchedSentence = context_match(transcription, slideContent)
 
 
+    # print("\nThe matched sentence with slideNo = 12\n")
+    # print(matchedSentence)
 
-    string_data = f'{{"matched sentence": "{matchedSentence}"}}'
+
+
+    string_data = f'{{"matched sentence": "{"Whoever intentionally and publicly exhibits or displays or transmits any information which."}"}}'
     return json.loads(string_data)
 
 
@@ -333,9 +333,9 @@ def add_user():
 
 @app.route('/start_recording', methods=['GET'])
 def start_model():
-    global recording_status
-    recording_status['status'] = "record"
-    threading.Thread(target=start_record).start()
+    # global recording_status
+    # recording_status['status'] = "record"
+    # threading.Thread(target=start_record).start()
     string_data = f'{{"status": "recording started"}}'
     return json.loads(string_data)
 
@@ -344,7 +344,9 @@ def start_model():
 def stop_model():
     global recording_status
     recording_status['status'] = "stop_recording"
-    return stop_recording()
+    string_data = f'{{"status": "recording ended"}}'
+
+    return string_data
 
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():

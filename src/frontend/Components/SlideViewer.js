@@ -5,26 +5,65 @@ import { useNavigate } from "react-router-dom";
 
 
 const SlideViewer = (props) => {
-  let count = 0;
   const [fileType, setFileType] = useState({});
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [slideNum, setslideNum] = useState(0);
-  const [hehe, setHehe] = useState(0);
+  const [slideNum, setslideNum] = useState(0);  
+  const [elementsArray, setElementArray] = useState([]);  
+
   const navigate = useNavigate(); // Use useNavigate hook here
-  const scrollRef = useRef(null); // Ref to store scroll position
 
 
-
-  
   useEffect(() => {
-    // console.log("slideNum" , slideNum)
+    console.log("slideNum" , slideNum)
     setTimeout(() => {
       const elementsWithId = document.querySelectorAll(".pg-viewer");
       let outermostElement = elementsWithId[1];
       outermostElement.scrollLeft = parseInt(localStorage.getItem('scroll'));
+     
     }, 10);
-  
+     
   }, [slideNum]); 
+
+  useEffect(() => {
+    
+    setTimeout(() => {
+      setElements()
+      console.log("in set Elements" , slideNum)
+    }, 1000);
+     
+  }, []); 
+
+
+  useEffect(() => {
+    
+    console.log("elementArray", elementsArray)
+
+  }, [elementsArray]); 
+
+
+
+
+  useEffect(() => {
+    if (props.filePath) {
+      setFileType("pptx");
+      toggleFullscreen();
+    }
+  }, [props.filePath]); 
+
+
+  
+ 
+
+  function setElements() {
+    const elementsWithId = document.querySelectorAll('.pg-viewer');
+    let outermostElement = elementsWithId[1];
+
+    let childrenDivs = outermostElement.children
+    let grandChildren=childrenDivs[0].children
+
+    setElementArray( Array.from(grandChildren));
+    
+  }
 
 
   
@@ -46,32 +85,42 @@ const SlideViewer = (props) => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, []); // Empty dependency array ensures that the effect runs only once on mount
+  }, [slideNum]); // Empty dependency array ensures that the effect runs only once on mount
 
   const matchContext = async () => {
     try {
+
+      console.log("slideNum in matchContext" , slideNum )
       const response = await fetch('http://127.0.0.1:8080/match_context');
       const data = await response.json();
-      console.log(data); 
-      const elements = document.getElementsByClassName('h-left');
-
-      // Convert HTMLCollection to an array
-      const elementsArray = Array.from(elements);
       console.log(data['matched sentence'])
-  
-      // Iterate over each element
-      elementsArray.forEach(element => {
+      const element=elementsArray[slideNum - 1 ]
+      const bulletPointsDiv = element.querySelectorAll('.h-left');
+      const bulletPoints=Array.from(bulletPointsDiv)
+      console.log(bulletPoints)
+
+
+      bulletPointsDiv.forEach(element => {
         const textContent = element.innerText;
         let stringWithoutSpecialChars = removeSpecialCharacters(textContent);
         let stringWithoutSpecialChars2 = removeSpecialCharacters(data['matched sentence']);
         let stringWithoutSpecialChars3= stringWithoutSpecialChars.replace(/\u00A0/, " ");
+        // console.log("on slide", stringWithoutSpecialChars3);
+        // console.log("on db", stringWithoutSpecialChars2);
+
 
         if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2) {
           console.log("hurrah", textContent);
+          console.log("color", element.style.backgroundColor)
+
           element.style.backgroundColor = 'yellow';
+          element.style.setProperty('background-color', 'yellow', 'important');
+          console.log("color", element.style.backgroundColor)
       }
 
     });
+
+     
   } catch (error) {
       console.log('Error:', error);
     }
@@ -95,14 +144,7 @@ const SlideViewer = (props) => {
     }
   };
 
-  useEffect(() => {
-    if(props.filePath)
-    {
-      setFileType("pptx");
-      toggleFullscreen();
-    }
-   
-  }, [props.filePath]);
+  
    
 
 
@@ -119,14 +161,10 @@ const SlideViewer = (props) => {
     if (shift > 0)
     {
       operation= "next"
-      // setslideNum(slideNum + 1)
-      // setHehe("lol")
     }
     else if (shift < 0)
     {
       operation= "previous"
-      // setslideNum(slideNum - 1)
-      // setHehe("lol")
 
 
     }
