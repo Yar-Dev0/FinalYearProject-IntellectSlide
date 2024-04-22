@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import FileViewer from "offices-viewer";
+import Logo from "../Images/logo.png"
 import "../Styles/SlideViewer.css";
 import { useNavigate } from "react-router-dom";
 
@@ -302,8 +303,27 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     setIsFullscreen(!isFullscreen);
   };
 
+
+  const renderImage = () => {
+    return (
+      <img
+        src={Logo} // Provide the path to your image file
+        alt="Image"
+        style={{
+          position: "fixed",
+          top: "100px",
+          right: "170px",
+          width: "200px",
+          height: "auto",
+          zIndex: "9999",
+        }}
+      />
+    );
+  };
+
   return (
     <div className="slideViewerContainer" >
+      {renderImage()}
      
 
       {props.filePath && (

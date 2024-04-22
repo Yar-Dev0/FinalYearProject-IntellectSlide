@@ -73,8 +73,6 @@ def execute_query(query, values=None):
         # result = cur.fetchall()
         connection.commit()
         cur.close()
-        # connection.close()
-        # print("connection closed")
         return "Database operation successfull"
     except Exception as e:  
         print(f'Database connection error: {str(e)}')
@@ -91,9 +89,6 @@ def context_match(query, slideData):
     sentences = slideData.split("\n")
     #sentences = sent_tokenize(slideData)
 
-    # print("*********This is slide data**************** \n\n", sentences)
-    # print("Hello testing, thisis a test line.\n")
-
     # Adding sentences to pupulate the list
     corpus = []
     corpus.extend(sentences)
@@ -108,12 +103,11 @@ def context_match(query, slideData):
     cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
     top_results = torch.topk(cos_scores, k=1)
 
-    print("\n\n======================\n\n")
+    print("\n======================\n")
     print("Query:", queries)
 
     for score, idx in zip(top_results[0], top_results[1]):
         matchedSentence = corpus[idx]
-        # print('The match sentence is : ', matchedSentence)
 
     return matchedSentence
 
@@ -202,18 +196,16 @@ def stop_recording():
     transcription=""
     for example in output:
         transcription = decoder(example.cpu())
-        print(transcription)
 
     global start_time
     execution_time = end_time - start_time
-    print(f"Execution time: {execution_time:.2f} seconds")
     
     query1 = "INSERT INTO presentationslide (transcription) VALUES ( %s);"
     value=[]
     value.append(transcription)
     status=execute_query(query1, value)
     string_data = f'{{"transcription": "{transcription}", "execution_time": {execution_time:.2f}, "status": "{status}"}}'
-    print("Received JSON data:", string_data)
+    print("Sent JSON data:", string_data)
 
     return json.loads(string_data)
 
@@ -284,7 +276,6 @@ def transcribe_data():
     transcription=""
     for example in output:
         transcription = decoder(example.cpu())
-        # print(transcription)
 
     return transcription
 
@@ -308,11 +299,8 @@ def call_function_periodically():
     while recording_status['status'] == "record":
         diff=len(frames) - previous_frames_count
         if (diff > 100):
-            print("----------------------function automatically called-------------------------------")
-            print(previous_frames_count, len(frames))
+            print("----------------------Context Automatically Matched-------------------------------")
             initialize_match_context()
-            print("difference=", diff)
-            print(previous_frames_count, len(frames))
             
         time.sleep(5)  # Sleep for 5 seconds before calling the function again
 
