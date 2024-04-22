@@ -34,7 +34,6 @@ const SlideViewer = (props) => {
 
   useEffect(() => {
     
-    // console.log("elementArray", elementsArray)
 
   }, [elementsArray]); 
 
@@ -83,13 +82,42 @@ const SlideViewer = (props) => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [slideNum]); // Empty dependency array ensures that the effect runs only once on mount
+  }, [slideNum]); 
+
+
+  useEffect(() => {
+    // Function to periodically check for updates from the backend
+    const checkForUpdates = async () => {
+      try {
+       matchContext();
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    // Start checking for updates every 5 seconds
+    const intervalId = setInterval(checkForUpdates, 5000);
+
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [slideNum]);
+
 
   const matchContext = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8080/match_context');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data from the server');
+      }
       const data = await response.json();
       console.log(data)
+      console.log("bullet point to be highlighted: ");
+      console.log(data['matched sentence']) 
+      
+      if(data['matched sentence'] != ""){
+
       
 
 
@@ -114,23 +142,21 @@ const SlideViewer = (props) => {
 
 
         if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2  ) {
-          console.log("hurrah");
+          console.log("matched directly");
           element.style.backgroundColor = 'yellow';
       }
 
-    //   if (stringWithoutSpecialChars3.includes(stringWithoutSpecialChars2)   ) {
-    //     console.log("sub 1");
-    //     element.style.backgroundColor = 'yellow';
-    // }
+      else if (stringWithoutSpecialChars3.includes(stringWithoutSpecialChars2) &&  stringWithoutSpecialChars2 != " "  ) {
+        console.log("matched through substring 1");
+        element.style.backgroundColor = 'yellow';
+    }
 
-    if (stringWithoutSpecialChars2.includes(stringWithoutSpecialChars3) &&  stringWithoutSpecialChars3 != " "  ) {
-      console.log("sub 2");
-      console.log(stringWithoutSpecialChars3)
+    else if (stringWithoutSpecialChars2.includes(stringWithoutSpecialChars3) &&  stringWithoutSpecialChars3 != " "  ) {
+      console.log("matched through substring 2");
       element.style.backgroundColor = 'yellow';
   }
-      if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
-        console.log("bhurrah");
-      // console.log(stringWithoutSpecialChars3)
+      else if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
+        console.log("matched through levenshtein distance");
         element.style.backgroundColor = 'yellow';
         
     }
@@ -142,10 +168,18 @@ const SlideViewer = (props) => {
     });
 
     
-
+  }
+  else{
+    const elements=elementsArray[slideNum - 1 ]
+    const bulletPointsDiv = document.getElementsByClassName('h-left');
+    const bulletPoints=Array.from(bulletPointsDiv)
+    bulletPoints.forEach(element => {
+      element.style.backgroundColor = '';
+  });
+  }
      
   } catch (error) {
-      console.log('Error:', error);
+      console.log('Error:', error.message);
     }
   };
 
@@ -191,6 +225,13 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     outermostElement.scrollLeft += shift;
     localStorage.setItem('scroll', JSON.stringify(outermostElement.scrollLeft));
     let operation="next"
+
+    const elements=elementsArray[slideNum - 1 ]
+    const bulletPointsDiv = document.getElementsByClassName('h-left');
+    const bulletPoints=Array.from(bulletPointsDiv)
+    bulletPoints.forEach(element => {
+      element.style.backgroundColor = '';
+  });
     
    
     if (shift > 0)

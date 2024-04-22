@@ -36,6 +36,8 @@ utils=0
 stream=0
 start_time=0
 previous_frames_count = 0
+previous_sentence=""
+global_transcription=""
 slideCount=1
 presentationId=116
 slideContent=""
@@ -250,7 +252,6 @@ def transcribe_data():
 
     # Update the previous_frames_count to the current count
     previous_frames_count = len(frames)
-
     
  
     p = pyaudio.PyAudio()
@@ -289,18 +290,61 @@ def transcribe_data():
 
 
 
+@app.route('/start_recording', methods=['GET'])
+def start_model():
+    global recording_status
+    recording_status['status'] = "record"
+    #The function below will recprd the whole session on a new thread
+    threading.Thread(target=start_record).start()
+    #The function below will match context periodically
+    threading.Thread(target=call_function_periodically).start()
+    string_data = f'{{"status": "recording started"}}'
+    return json.loads(string_data)
+
+def call_function_periodically():
+    global previous_frames_count
+    global frames
+    global previous_sentence
+    while recording_status['status'] == "record":
+        diff=len(frames) - previous_frames_count
+        if (diff > 100):
+            print("----------------------function automatically called-------------------------------")
+            print(previous_frames_count, len(frames))
+            initialize_match_context()
+            print("difference=", diff)
+            print(previous_frames_count, len(frames))
+            
+        time.sleep(5)  # Sleep for 5 seconds before calling the function again
+
+
+
 @app.route('/match_context', methods=['GET'])
 def initialize_match_context():
 
     ST = time.time()
     global slideContent
-    transcription=[]
-    print("call recieved")
-    transcription=transcribe_data()
+    global global_transcription
+    global previous_sentence
+    previous_sentence=global_transcription
+    global_transcription=[]
+    global_transcription=transcribe_data()
+    print(global_transcription)
+    if(global_transcription is None):
+        ET= time.time()
+        ExecT= ET - ST
+        return f'{{"matched sentence": "","execution_time": {ExecT:.2f}}}'
+
+
+    length = len(previous_sentence)
+    later_half = previous_sentence[length // 2:]
+
+    # Concatenate the later half with the second string
+    global_transcription = later_half + " " + global_transcription
+    print(global_transcription)
     
     
     # ---- context Match func call -----
-    matchedSentence = context_match(transcription, slideContent)
+    matchedSentence = context_match(global_transcription, slideContent)
 
 
     print("\nThe matched sentence:\n")
@@ -319,6 +363,8 @@ def update_slide_count():
     
     global slideCount
     global previous_frames_count
+    global previous_sentence
+    previous_sentence=""
     previous_frames_count = len(frames)
     operation = request.form.get('operation', 'next')
     if(operation == "next"):
@@ -345,13 +391,6 @@ def add_user():
     return json.loads(string_data)
 
 
-@app.route('/start_recording', methods=['GET'])
-def start_model():
-    global recording_status
-    recording_status['status'] = "record"
-    threading.Thread(target=start_record).start()
-    string_data = f'{{"status": "recording started"}}'
-    return json.loads(string_data)
 
 
 @app.route('/stop_recording', methods=['GET'])
