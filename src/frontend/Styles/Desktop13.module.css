@@ -3,7 +3,7 @@
 .carbonchartPointIcon {
   position: absolute;
   top: 688px;
-  left: 725px;
+  left: 680px;
   width: 47px;
   height: 47px;
   overflow: hidden;
@@ -22,14 +22,14 @@
 .iconParkOutlinetext {
   position: absolute;
   top: 687px;
-  left: 550px;
+  left: 520px;
   width: 50px;
   height: 50px;
   overflow: hidden;
 }
 .iconParkOutlinetext {
   top: 674px;
-  left: 370px;
+  left: 350px;
   width: 75px;
   height: 75px;
 }
@@ -73,13 +73,13 @@
   left: 65.07%;
   border: 3px solid var(--color-steelblue-100);
 }
-.loopergroupIcon {
+/* .loopergroupIcon {
   position: absolute;
   top: 580px;
   left: 0;
   width: 1440px;
   height: 1154px;
-}
+} */
 .looperBgIcon {
   position: relative;
   top: 0;
@@ -208,7 +208,7 @@
 .desktop13Child3 {
   position: absolute;
   top: 28px;
-  left: 860px;
+  left: 780px;
   border-radius: var(--br-3xs);
   background-color: var(--color-steelblue-200);
   width: 470px;

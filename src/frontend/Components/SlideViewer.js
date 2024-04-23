@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import FileViewer from "offices-viewer";
+import Logo from "../Images/logo.png"
 import "../Styles/SlideViewer.css";
 import { useNavigate } from "react-router-dom";
 
@@ -8,9 +9,62 @@ const SlideViewer = (props) => {
   const [fileType, setFileType] = useState({});
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideNum, setslideNum] = useState(0);  
-  const [elementsArray, setElementArray] = useState([]);  
+  const [elementsArray, setElementArray] = useState([]);
+  const [isListening, setIsListening] = useState(false);
+  const speechRecognitionRef = useRef(null);
 
   const navigate = useNavigate(); // Use useNavigate hook here
+
+
+
+  useEffect(() => {
+    // Setup speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      speechRecognitionRef.current = new SpeechRecognition();
+      speechRecognitionRef.current.continuous = true;
+      speechRecognitionRef.current.lang = 'en-US';
+      speechRecognitionRef.current.interimResults = true;
+      speechRecognitionRef.current.onresult = handleVoiceCommand;
+    }
+
+    // Start listening to speech
+    startListening();
+
+    return () => {
+      stopListening();
+    };
+  }, [elementsArray]);
+
+  const handleVoiceCommand = (event) => {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript.trim().toLowerCase();
+      if (transcript === "next slide" && event.results[i].isFinal) {
+        slide(1566.39991);
+      } else if (transcript === "previous slide" && event.results[i].isFinal) {
+        slide(-1566.39991);
+      }
+    }
+  };
+
+  const startListening = () => {
+    if (!isListening && speechRecognitionRef.current) {
+      speechRecognitionRef.current.start();
+      setIsListening(true);
+    }
+  };
+
+  const stopListening = () => {
+    if (isListening && speechRecognitionRef.current) {
+      speechRecognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
+
+
+
+
+
 
 
   useEffect(() => {
@@ -34,7 +88,6 @@ const SlideViewer = (props) => {
 
   useEffect(() => {
     
-    // console.log("elementArray", elementsArray)
 
   }, [elementsArray]); 
 
@@ -83,13 +136,42 @@ const SlideViewer = (props) => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [slideNum]); // Empty dependency array ensures that the effect runs only once on mount
+  }, [slideNum]); 
+
+
+  useEffect(() => {
+    // Function to periodically check for updates from the backend
+    const checkForUpdates = async () => {
+      try {
+       matchContext();
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    // Start checking for updates every 5 seconds
+    const intervalId = setInterval(checkForUpdates, 5000);
+
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [slideNum]);
+
 
   const matchContext = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8080/match_context');
+      const response = await fetch('http://127.0.0.1:5000/match_context');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data from the server');
+      }
       const data = await response.json();
       console.log(data)
+      console.log("bullet point to be highlighted: ");
+      console.log(data['matched sentence']) 
+      
+      if(data['matched sentence'] != ""){
+
       
 
 
@@ -97,6 +179,11 @@ const SlideViewer = (props) => {
       const bulletPointsDiv = document.getElementsByClassName('h-left');
       const bulletPoints=Array.from(bulletPointsDiv)
       // console.log(bulletPoints)
+
+
+      bulletPoints.forEach(element => {
+        element.style.backgroundColor = '';
+    });
 
 
       bulletPoints.forEach(element => {
@@ -109,14 +196,25 @@ const SlideViewer = (props) => {
 
 
         if (stringWithoutSpecialChars3 == stringWithoutSpecialChars2  ) {
-          console.log("hurrah");
+          console.log("matched directly");
           element.style.backgroundColor = 'yellow';
       }
 
-      if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
-        console.log("bhurrah");
+      else if (stringWithoutSpecialChars3.includes(stringWithoutSpecialChars2) &&  stringWithoutSpecialChars2 != " "  ) {
+        console.log("matched through substring 1");
         element.style.backgroundColor = 'yellow';
     }
+
+    else if (stringWithoutSpecialChars2.includes(stringWithoutSpecialChars3) &&  stringWithoutSpecialChars3 != " "  ) {
+      console.log("matched through substring 2");
+      element.style.backgroundColor = 'yellow';
+  }
+      else if (areStringsEqual(stringWithoutSpecialChars3, stringWithoutSpecialChars2)  ) {
+        console.log("matched through levenshtein distance");
+        element.style.backgroundColor = 'yellow';
+        
+    }
+ 
 
 
 
@@ -124,10 +222,18 @@ const SlideViewer = (props) => {
     });
 
     
-
+  }
+  else{
+    const elements=elementsArray[slideNum - 1 ]
+    const bulletPointsDiv = document.getElementsByClassName('h-left');
+    const bulletPoints=Array.from(bulletPointsDiv)
+    bulletPoints.forEach(element => {
+      element.style.backgroundColor = '';
+  });
+  }
      
   } catch (error) {
-      console.log('Error:', error);
+      console.log('Error:', error.message);
     }
   };
 
@@ -152,12 +258,12 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
 }
   const onStopPresentingClick = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8080/stop_recording');
+      const response = await fetch('http://127.0.0.1:5000/stop_recording');
       console.log("fetching data")
       const data = await response.json();
       console.log(data); 
       toggleFullscreen();
-      navigate("/"); // Navigate using the navigate function
+      navigate("/keypoints"); // Navigate using the navigate function
     } catch (error) {
       console.log('Error:', error);
     }
@@ -172,31 +278,30 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     let outermostElement = elementsWithId[1];
     outermostElement.scrollLeft += shift;
     localStorage.setItem('scroll', JSON.stringify(outermostElement.scrollLeft));
-    let operation="next"
+    let operation = shift > 0 ? "next" : "previous";
+
+    // Update the slide number locally (this may need further adjustment based on your logic)
+    setslideNum(prev => prev + (shift > 0 ? 1 : -1));
+
+    const elements=elementsArray[slideNum - 1 ]
+    const bulletPointsDiv = document.getElementsByClassName('h-left');
+    const bulletPoints=Array.from(bulletPointsDiv)
+    bulletPoints.forEach(element => {
+      element.style.backgroundColor = '';
+  });
     
-   
-    if (shift > 0)
-    {
-      operation= "next"
-    }
-    else if (shift < 0)
-    {
-      operation= "previous"
-
-
-    }
     const formData = new FormData();
     formData.append('operation', operation);
 
 
-    fetch('http://127.0.0.1:8080/update_slide_count', {
+    fetch('http://127.0.0.1:5000/update_slide_count', {
       method: 'POST',
       body: formData,
     })
     .then(response => response.json())
     .then(data => {
         console.log('Response from server:', data);
-          setslideNum(data["updated slide number"]);
+          // setslideNum(data["updated slide number"]);
     })
       .catch(error => {
         console.error('Error:', error);
@@ -243,8 +348,27 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     setIsFullscreen(!isFullscreen);
   };
 
+
+  const renderImage = () => {
+    return (
+      <img
+        src={Logo} // Provide the path to your image file
+        alt="Image"
+        style={{
+          position: "fixed",
+          top: "100px",
+          right: "170px",
+          width: "200px",
+          height: "auto",
+          zIndex: "9999",
+        }}
+      />
+    );
+  };
+
   return (
     <div className="slideViewerContainer" >
+      {renderImage()}
      
 
       {props.filePath && (

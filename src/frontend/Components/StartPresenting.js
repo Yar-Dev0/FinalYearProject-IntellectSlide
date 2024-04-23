@@ -22,7 +22,7 @@ const Desktop13 = () => {
       
     const stopRecording = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8080/stop_recording');
+        const response = await fetch('http://127.0.0.1:5000/stop_recording');
         console.log("fetching data")
         const data = await response.json();
         console.log(data); 
@@ -35,7 +35,7 @@ const Desktop13 = () => {
     const startRecording = async () => {
       try {
         navigate("/slideviewer");
-        const response = await fetch('http://127.0.0.1:8080/start_recording');
+        const response = await fetch('http://127.0.0.1:5000/start_recording');
         console.log("fetching data")
         const data = await response.json();
         console.log(data); 

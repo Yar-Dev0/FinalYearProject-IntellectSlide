@@ -1,13 +1,62 @@
-import { useCallback } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Styles/Desktop12.module.css";
+import React, { useState, useCallback } from 'react';
+
+
+//          {presentationInfo[presentationInfo.length - 1].title}
+//          {presentationInfo[presentationInfo.length - 1].uploadDate}
+
+//          {presentationInfo[presentationInfo.length - 2].title}
+//          {presentationInfo[presentationInfo.length - 2].uploadDate}
+
+//          {presentationInfo[presentationInfo.length - 3].title}
+//          {presentationInfo[presentationInfo.length - 3].uploadDate}
+
+//          {presentationInfo[presentationInfo.length - 4].title}
+//          {presentationInfo[presentationInfo.length - 4].uploadDate}
+
+//          {presentationInfo[presentationInfo.length - 5].title}
+//          {presentationInfo[presentationInfo.length - 5].uploadDate}
+
+//          {presentationInfo[presentationInfo.length - 6].title}
+//          {presentationInfo[presentationInfo.length - 6].uploadDate}
 
 const Desktop12 = () => {
   const navigate = useNavigate();
 
+  const [presentationInfo, setPresentationInfo] = useState([]); // State variable to store presentation titles and upload dates
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/presentation_data");
+        const data = await response.json();
+        console.log(data);
+        if (data && data.length > 0) {
+          const presentationData = data.map(item => ({
+            title: item.title,
+            uploadDate: item.uploadDate
+          }));
+          setPresentationInfo(presentationData); // Set the fetched presentation data
+        }
+      } catch (error) {
+        console.error("Error fetching presentation data:", error);
+      }
+    };
+
+    fetchData(); // Call the async function immediately
+  }, []);
+
+  // Memoized click event handler using useCallback
+  const onAboutUsClick = useCallback(() => {
+    // Call the function to fetch presentation data
+    fetchPresentationData();
+  }, []);
+
+
   const onComponent5ContainerClick = useCallback(() => {
-    navigate("/slides");
+    navigate("/keypoints");
   }, [navigate]); 
 
   const onArchieveTextClick = useCallback(() => {
@@ -75,12 +124,18 @@ const Desktop12 = () => {
 </select>
       <div className={styles.component21} onClick={onComponent5ContainerClick}>
         <div className={styles.component2Child} />
-        <b className={styles.lecture12}>Lecture 12</b>
+        <b className={styles.lecture12}>Lecture 3</b>
         <div className={styles.smdSectionAContainer}>
-          <p className={styles.smd}>SMD</p>
-          <p className={styles.smd}>&nbsp;</p>
-          <p className={styles.smd}>15th March 2023</p>
-        </div>
+  {presentationInfo.length > 2 ? (
+    <>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 3].title}</p>
+      <p className={styles.smd}>&nbsp;</p>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 3].uploadDate}</p>
+    </>
+  ) : (
+    <p className={styles.smd}>Unavailable</p>
+  )}
+</div>
         <img
           className={styles.component2Item}
           alt=""
@@ -91,12 +146,18 @@ const Desktop12 = () => {
       </div>
       <div className={styles.component6}onClick={onComponent5ContainerClick}>
         <div className={styles.component2Child} />
-        <b className={styles.lecture12}>Lecture 06</b>
+        <b className={styles.lecture12}>Lecture 6</b>
         <div className={styles.smdSectionAContainer}>
-          <p className={styles.smd}>Discrete Mathematics</p>
-          <p className={styles.smd}>&nbsp;</p>
-          <p className={styles.smd}>15th March 2023</p>
-        </div>
+  {presentationInfo.length > 5 ? (
+    <>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 6].title}</p>
+      <p className={styles.smd}>&nbsp;</p>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 6].uploadDate}</p>
+    </>
+  ) : (
+    <p className={styles.smd}>Unavailable</p>
+  )}
+</div>
         <img
           className={styles.component2Item}
           alt=""
@@ -107,12 +168,18 @@ const Desktop12 = () => {
       </div>
       <div className={styles.component4}onClick={onComponent5ContainerClick}>
         <div className={styles.component2Child} />
-        <b className={styles.lecture12}>Lecture 12</b>
+        <b className={styles.lecture12}>Lecture 1</b>
         <div className={styles.smdSectionAContainer}>
-          <p className={styles.smd}>Dev ops</p>
-          <p className={styles.smd}>&nbsp;</p>
-          <p className={styles.smd}>15th March 2023</p>
-        </div>
+  {presentationInfo.length > 0 ? (
+    <>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 1].title}</p>
+      <p className={styles.smd}>&nbsp;</p>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 1].uploadDate}</p>
+    </>
+  ) : (
+    <p className={styles.smd}>Unavailable</p>
+  )}
+</div>
         <img
           className={styles.component2Item}
           alt=""
@@ -123,12 +190,18 @@ const Desktop12 = () => {
       </div>
       <div className={styles.component7}onClick={onComponent5ContainerClick}>
         <div className={styles.component2Child} />
-        <b className={styles.lecture12}>Lecture 09</b>
+        <b className={styles.lecture12}>Lecture 4</b>
         <div className={styles.smdSectionAContainer}>
-          <p className={styles.smd}>OOP</p>
-          <p className={styles.smd}>&nbsp;</p>
-          <p className={styles.smd}>15th March 2023</p>
-        </div>
+  {presentationInfo.length > 3 ? (
+    <>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 4].title}</p>
+      <p className={styles.smd}>&nbsp;</p>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 4].uploadDate}</p>
+    </>
+  ) : (
+    <p className={styles.smd}>Unavailable</p>
+  )}
+</div>
         <img
           className={styles.component2Item}
           alt=""
@@ -171,12 +244,18 @@ const Desktop12 = () => {
       </div> */}
       <div className={styles.component5} onClick={onComponent5ContainerClick}>
         <div className={styles.component2Child} />
-        <b className={styles.lecture12}>Lecture 01</b>
+        <b className={styles.lecture12}>Lecture 2</b>
         <div className={styles.smdSectionAContainer}>
-          <p className={styles.smd}>Web Dev</p>
-          <p className={styles.smd}>&nbsp;</p>
-          <p className={styles.smd}>15th March 2023</p>
-        </div>
+        {presentationInfo.length > 1 ? (
+    <>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 2].title}</p>
+      <p className={styles.smd}>&nbsp;</p>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 2].uploadDate}</p>
+    </>
+  ) : (
+    <p className={styles.smd}>Unavailable</p>
+  )}
+</div>
         <img
           className={styles.component2Item}
           alt=""
@@ -187,12 +266,18 @@ const Desktop12 = () => {
       </div>
       <div className={styles.component9} onClick={onComponent5ContainerClick}>
         <div className={styles.component2Child} />
-        <b className={styles.lecture12}>Lecture 07</b>
+        <b className={styles.lecture12}>Lecture 5</b>
         <div className={styles.smdSectionAContainer}>
-          <p className={styles.smd}>Theory of Automata</p>
-          <p className={styles.smd}>&nbsp;</p>
-          <p className={styles.smd}>15th March 2023</p>
-        </div>
+  {presentationInfo.length > 4 ? (
+    <>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 5].title}</p>
+      <p className={styles.smd}>&nbsp;</p>
+      <p className={styles.smd}>{presentationInfo[presentationInfo.length - 5].uploadDate}</p>
+    </>
+  ) : (
+    <p className={styles.smd}>Unavailable</p>
+  )}
+</div>
         <img
           className={styles.component2Item}
           alt=""
@@ -211,7 +296,7 @@ const Desktop12 = () => {
       <div className={styles.archieve} onClick={onArchieveTextClick}>
         Archive
       </div>
-      <div className={styles.aboutUs}>About Us</div>
+      <div className={styles.aboutUs} onClick={onAboutUsClick}>About Us</div>
 
     </div>
   );

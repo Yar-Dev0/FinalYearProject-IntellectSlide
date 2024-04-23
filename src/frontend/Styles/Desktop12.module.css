@@ -1,10 +1,10 @@
-.loopergroupIcon {
+/* .loopergroupIcon {
   position: absolute;
   top: 580px;
   left: 0;
   width: 1440px;
   height: 591px;
-}
+} */
 /* .desktop12Child, */
 .looperBgIcon {
   position: relative;
@@ -375,7 +375,7 @@
 .desktop12Item {
   position: absolute;
   top: 28px;
-  left: 814px;
+  left: 750px;
   border-radius: var(--br-3xs);
   background-color: var(--color-steelblue-200);
   width: 480px;
