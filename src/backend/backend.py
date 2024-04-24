@@ -24,8 +24,8 @@ from rake_nltk import Rake
 from nltk.corpus import stopwords
 
 
-nltk.download('punkt')
-nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('stopwords')
 
 app = Flask(__name__)
 cors = CORS(app, origins=["http://localhost:3000"])
@@ -46,9 +46,8 @@ stream=0
 start_time=0
 previous_frames_count = 0
 previous_sentence=""
-global_transcription=""
 slideCount=1
-presentationId=20
+presentationId=116
 slideContent=""
 # Load the model and get utility functions
 model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
@@ -245,7 +244,7 @@ def stop_recording():
     transcription=""
     for example in output:
         transcription = decoder(example.cpu())
-        print(transcription)
+        # print(transcription)
 
     global start_time
     execution_time = end_time - start_time
@@ -355,45 +354,77 @@ def transcribe_data():
     return transcription
 
 
+@app.route('/start_recording', methods=['GET'])
+def start_model():
+    global recording_status
+    recording_status['status'] = "record"
+    #The function below will recprd the whole session on a new thread
+    threading.Thread(target=start_record).start()
+    #The function below will match context periodically
+    threading.Thread(target=call_function_periodically).start()
+    string_data = f'{{"status": "recording started"}}'
+    return json.loads(string_data)
+
+# -----------------
+def call_function_periodically():
+    global previous_frames_count
+    global frames
+    while recording_status['status'] == "record":
+        print("recording status =", recording_status['status'])
+        diff=len(frames) - previous_frames_count
+        if (diff > 100):
+            print("----------------------Context Automatically Matched-------------------------------")
+            initialize_match_context()
+            
+        time.sleep(5)  # Sleep for 5 seconds before calling the function again
+
+
+        
+
+# -------------------
+
+
 
 @app.route('/match_context', methods=['GET'])
 def initialize_match_context():
+    if(recording_status['status'] == "record"):
 
-    ST = time.time()
-    global slideContent
-    global global_transcription
-    global previous_sentence
-    previous_sentence=global_transcription
-    global_transcription=[]
-    global_transcription=transcribe_data()
-    print(global_transcription)
-    if(global_transcription is None):
+        ST = time.time()
+        global slideContent
+        global previous_sentence
+        # previous_sentence=global_transcription
+        global_transcription=[]
+        global_transcription=transcribe_data()
+        print(global_transcription)
+        if(global_transcription == ""):
+            ET= time.time()
+            ExecT= ET - ST
+            previous_sentence=""
+            return f'{{"matched sentence": "","execution_time": {ExecT:.2f}}}'
+
+
+        length = len(previous_sentence)
+        later_half = previous_sentence[length // 2:]
+
+        # Concatenate the later half with the second string
+        global_transcription = later_half + " " + global_transcription
+        previous_sentence=global_transcription
+        print(global_transcription)
+        
+        
+        # ---- context Match func call -----
+        matchedSentence = context_match(global_transcription, slideContent)
+
+
+        print("\nThe matched sentence:\n")
+        print(matchedSentence)
+
+
         ET= time.time()
         ExecT= ET - ST
-        return f'{{"matched sentence": "","execution_time": {ExecT:.2f}}}'
 
-
-    length = len(previous_sentence)
-    later_half = previous_sentence[length // 2:]
-
-    # Concatenate the later half with the second string
-    global_transcription = later_half + " " + global_transcription
-    print(global_transcription)
-    
-    
-    # ---- context Match func call -----
-    matchedSentence = context_match(global_transcription, slideContent)
-
-
-    print("\nThe matched sentence:\n")
-    print(matchedSentence)
-
-
-    ET= time.time()
-    ExecT= ET - ST
-
-    string_data = f'{{"matched sentence": "{matchedSentence}","execution_time": {ExecT:.2f}}}'
-    return json.loads(string_data)
+        string_data = f'{{"matched sentence": "{matchedSentence}","execution_time": {ExecT:.2f}}}'
+        return json.loads(string_data)
 
 
 @app.route('/update_slide_count', methods=['POST'])
@@ -429,31 +460,6 @@ def add_user():
     return json.loads(string_data)
 
 
-@app.route('/start_recording', methods=['GET'])
-def start_model():
-    global recording_status
-    recording_status['status'] = "record"
-    #The function below will recprd the whole session on a new thread
-    threading.Thread(target=start_record).start()
-    #The function below will match context periodically
-    threading.Thread(target=call_function_periodically).start()
-    string_data = f'{{"status": "recording started"}}'
-    return json.loads(string_data)
-
-# -----------------
-def call_function_periodically():
-    global previous_frames_count
-    global frames
-    global previous_sentence
-    while recording_status['status'] == "record":
-        diff=len(frames) - previous_frames_count
-        if (diff > 100):
-            print("----------------------Context Automatically Matched-------------------------------")
-            initialize_match_context()
-            
-        time.sleep(5)  # Sleep for 5 seconds before calling the function again
-
-# -------------------
 
 
 
@@ -469,6 +475,8 @@ from datetime import datetime
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
     global presentationId
+    # string_data = f'{{"transcription": "db upload stopped for the moment. uncomment this line and the line below to start uplodaing to db"}}'
+    # return json.loads(string_data)
 
     try:
         pptx_file = request.files['pptxFile']   
@@ -504,6 +512,7 @@ def upload_pptx():
         # Iterate over slides to extract text content
         for slide_number, slide in enumerate(presentation.slides, start=1):
             query1 = "INSERT INTO slide (\"textContent\", \"slideNo\", \"presentationId\")  VALUES (%s, %s, %s);"
+            print(f"Slide {slide_number}:")
             value = ""
             for shape in slide.shapes:
                 if hasattr(shape, "text"):
@@ -546,7 +555,7 @@ def get_presentation_data():
             })
 
         # Print the response data
-        print("Presentation data:", response_data)
+        # print("Presentation data:", response_data)
 
         # Return the response
         return jsonify(response_data)

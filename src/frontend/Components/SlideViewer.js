@@ -9,9 +9,62 @@ const SlideViewer = (props) => {
   const [fileType, setFileType] = useState({});
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideNum, setslideNum] = useState(0);  
-  const [elementsArray, setElementArray] = useState([]);  
+  const [elementsArray, setElementArray] = useState([]);
+  const [isListening, setIsListening] = useState(false);
+  const speechRecognitionRef = useRef(null);
 
   const navigate = useNavigate(); // Use useNavigate hook here
+
+
+
+  useEffect(() => {
+    // Setup speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      speechRecognitionRef.current = new SpeechRecognition();
+      speechRecognitionRef.current.continuous = true;
+      speechRecognitionRef.current.lang = 'en-US';
+      speechRecognitionRef.current.interimResults = true;
+      speechRecognitionRef.current.onresult = handleVoiceCommand;
+    }
+
+    // Start listening to speech
+    startListening();
+
+    return () => {
+      stopListening();
+    };
+  }, [elementsArray]);
+
+  const handleVoiceCommand = (event) => {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript.trim().toLowerCase();
+      if (transcript === "next slide" && event.results[i].isFinal) {
+        slide(1566.39991);
+      } else if (transcript === "previous slide" && event.results[i].isFinal) {
+        slide(-1566.39991);
+      }
+    }
+  };
+
+  const startListening = () => {
+    if (!isListening && speechRecognitionRef.current) {
+      speechRecognitionRef.current.start();
+      setIsListening(true);
+    }
+  };
+
+  const stopListening = () => {
+    if (isListening && speechRecognitionRef.current) {
+      speechRecognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
+
+
+
+
+
 
 
   useEffect(() => {
@@ -225,7 +278,10 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
     let outermostElement = elementsWithId[1];
     outermostElement.scrollLeft += shift;
     localStorage.setItem('scroll', JSON.stringify(outermostElement.scrollLeft));
-    let operation="next"
+    let operation = shift > 0 ? "next" : "previous";
+
+    // Update the slide number locally (this may need further adjustment based on your logic)
+    // setslideNum(prev => prev + (shift > 0 ? 1 : -1));
 
     const elements=elementsArray[slideNum - 1 ]
     const bulletPointsDiv = document.getElementsByClassName('h-left');
@@ -234,17 +290,6 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
       element.style.backgroundColor = '';
   });
     
-   
-    if (shift > 0)
-    {
-      operation= "next"
-    }
-    else if (shift < 0)
-    {
-      operation= "previous"
-
-
-    }
     const formData = new FormData();
     formData.append('operation', operation);
 
