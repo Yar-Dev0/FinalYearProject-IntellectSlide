@@ -40,9 +40,10 @@ const SlideViewer = (props) => {
     for (let i = event.resultIndex; i < event.results.length; i++) {
       const transcript = event.results[i][0].transcript.trim().toLowerCase();
       if (transcript === "next slide" && event.results[i].isFinal) {
-        slide(1566.39991);
-      } else if (transcript === "previous slide" && event.results[i].isFinal) {
-        slide(-1566.39991);
+        // slide(1378.39);
+      } 
+      else if (transcript === "previous slide" && event.results[i].isFinal) {
+        slide(-1378.39);
       }
     }
   };
@@ -169,8 +170,20 @@ const SlideViewer = (props) => {
       console.log(data)
       console.log("bullet point to be highlighted: ");
       console.log(data['matched sentence']) 
+
+
+      if(data['matched sentence'] == "navigate"){
+          slide(1378.39)
+          const elements=elementsArray[slideNum - 1 ]
+          const bulletPointsDiv = document.getElementsByClassName('h-left');
+          const bulletPoints=Array.from(bulletPointsDiv)
+          bulletPoints.forEach(element => {
+            element.style.backgroundColor = '';
+          });
+
+      }
       
-      if(data['matched sentence'] != ""){
+      else if(data['matched sentence'] != ""){
 
       
 
@@ -356,7 +369,7 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
         alt="Image"
         style={{
           position: "fixed",
-          top: "100px",
+          top: "30px",
           right: "170px",
           width: "200px",
           height: "auto",
@@ -378,7 +391,7 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
             type="button"
             data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev"
-            onClick={() => slide(-1566.39991)}
+            onClick={() => slide(-1378.39)}
           >
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
@@ -388,7 +401,7 @@ function areStringsEqual(str1, str2) {    //to handle case of nearly equal
             type="button"
             data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next"
-            onClick={() => slide(1566.39991)}
+            onClick={() => slide(1378.39)}
           >
             <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>

@@ -396,7 +396,13 @@ def initialize_match_context():
         global_transcription=[]
         global_transcription=transcribe_data()
         print(global_transcription)
-        if(global_transcription == ""):
+
+        if "next" in global_transcription:
+            previous_sentence=""
+            global_transcription
+            return '{"matched sentence": "navigate"}'
+
+        if(global_transcription.strip() == ""):
             ET= time.time()
             ExecT= ET - ST
             previous_sentence=""
@@ -475,8 +481,8 @@ from datetime import datetime
 @app.route('/upload_pptx', methods=['POST'])
 def upload_pptx():
     global presentationId
-    # string_data = f'{{"transcription": "db upload stopped for the moment. uncomment this line and the line below to start uplodaing to db"}}'
-    # return json.loads(string_data)
+    string_data = f'{{"transcription": "db upload stopped for the moment. uncomment this line and the line below to start uplodaing to db"}}'
+    return json.loads(string_data)
 
     try:
         pptx_file = request.files['pptxFile']   
